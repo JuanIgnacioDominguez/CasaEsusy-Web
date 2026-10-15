@@ -1,22 +1,29 @@
-import { BotonLink } from "@/components/ui/Boton";
-import { Muestra } from "@/components/ui/Muestra";
+import Link from "next/link";
+import { ArrowLeftIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/sitio/Logo";
 
 export default function NoEncontrada() {
   return (
-    <section className="contenedor grid min-h-[60vh] items-center gap-10 py-16 md:grid-cols-2">
-      <div>
-        <h1 className="display text-[clamp(2.6rem,6vw,4rem)]">Esta página no existe</h1>
-        <p className="mt-4 max-w-[44ch] text-hilo-2">
-          Puede que el enlace haya cambiado. Volvé al inicio o mirá lo que hacemos.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <BotonLink href="/">Ir al inicio</BotonLink>
-          <BotonLink href="/cortinas" variante="secundario">
-            Ver cortinas
-          </BotonLink>
+    <main className="grid min-h-dvh place-items-center bg-background px-6 py-16">
+      <div className="flex max-w-md flex-col items-center gap-6 text-center">
+        <Link href="/" aria-label="Inicio">
+          <Logo className="h-12" />
+        </Link>
+        <p className="text-8xl font-semibold tracking-tight text-terracota/80">404</p>
+        <h1 className="text-3xl font-semibold">Esta página no existe</h1>
+        <p className="text-lg text-muted-foreground">Puede que el enlace haya cambiado. Te dejamos algunos caminos:</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          <Button asChild size="lg" className="h-12 rounded-full px-6">
+            <Link href="/">
+              <ArrowLeftIcon data-icon="inline-start" /> Ir al inicio
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6">
+            <Link href="/presupuesto">Pedir presupuesto</Link>
+          </Button>
         </div>
       </div>
-      <Muestra textura="vichy" className="aspect-[4/3] rounded-[var(--radius-card)]" />
-    </section>
+    </main>
   );
 }

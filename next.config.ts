@@ -1,32 +1,34 @@
 import type { NextConfig } from "next";
 
-/**
- * - Producción (Vercel o VPS DonWeb): output "standalone" → corre en Docker sin cambios.
- * - STATIC_EXPORT=1 → exporta HTML estático (solo para previsualizar el diseño).
- */
-const isStaticExport = process.env.STATIC_EXPORT === "1";
-
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
 ];
 
 const nextConfig: NextConfig = {
-  output: isStaticExport ? "export" : "standalone",
-  trailingSlash: isStaticExport,
+  /** "standalone": corre igual en Vercel, en Docker o en la VPS. */
+  output: "standalone",
   poweredByHeader: false,
-  images: isStaticExport
-    ? { unoptimized: true }
-    : { formats: ["image/avif", "image/webp"] },
-  ...(isStaticExport
-    ? {}
-    : {
-        async headers() {
-          return [{ source: "/:path*", headers: securityHeaders }];
-        },
-      }),
+  serverExternalPackages: ["@libsql/client", "libsql", "sharp"],
+  images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [70, 75, 85],
+  },
+  experimental: {
+    serverActions: { bodySizeLimit: "12mb" },
+  },
+  async headers() {
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/img/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -1,18 +1,18 @@
 import type { MetadataRoute } from "next";
-import { negocio } from "@/content/negocio";
-
-export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: negocio.nombreCompleto,
-    short_name: negocio.nombre,
-    description: negocio.descripcion,
+    name: "Casa Esusy · Decoraciones",
+    short_name: "Casa Esusy",
+    description: "Cortinas a medida, tapizados y decoración en Banfield desde 1967.",
     start_url: "/",
-    display: "browser",
-    background_color: "#f6f2ec",
-    theme_color: "#f6f2ec",
+    display: "standalone",
+    background_color: "#f7f4ef",
+    theme_color: "#3f464e",
     lang: "es-AR",
-    icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }],
+    icons: [
+      { src: "/marca/icono-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/marca/icono-512.png", sizes: "512x512", type: "image/png" },
+    ],
   };
 }

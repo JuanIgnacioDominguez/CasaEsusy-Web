@@ -1,25 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { WhatsAppFlotante } from "@/components/layout/WhatsAppFlotante";
-import { MotionProvider } from "@/components/motion/MotionProvider";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { SITE_URL, negocio } from "@/content/negocio";
-import { schemaDuena, schemaNegocio } from "@/lib/seo";
+import { Proveedores } from "@/components/providers/Proveedores";
+import { getAjuste } from "@/lib/ajustes";
+import { SITE_URL } from "@/lib/whatsapp";
 
-/* Fuentes alojadas en el proyecto (más rápido, sin depender de Google Fonts). Licencia OFL. */
-const cormorant = localFont({
-  src: [
-    { path: "../fonts/cormorant-garamond-latin-500-normal.woff2", weight: "500", style: "normal" },
-    { path: "../fonts/cormorant-garamond-latin-500-italic.woff2", weight: "500", style: "italic" },
-    { path: "../fonts/cormorant-garamond-latin-600-normal.woff2", weight: "600", style: "normal" },
-  ],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
+/* Inter variable alojada en el proyecto (licencia OFL). Pesos 400–700, nada finito. */
 const inter = localFont({
   src: "../fonts/inter-latin-wght-normal.woff2",
   weight: "100 900",
@@ -27,20 +13,25 @@ const inter = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: `${negocio.nombre} · Cortinas a medida, sillones y decoración en Banfield`,
-    template: `%s | ${negocio.nombre}`,
-  },
-  description: negocio.descripcion,
-  applicationName: negocio.nombre,
-  formatDetection: { telephone: false },
-  openGraph: { locale: "es_AR", siteName: negocio.nombre, type: "website" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [seo, negocio] = await Promise.all([getAjuste("seo"), getAjuste("negocio")]);
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: seo.tituloSitio, template: seo.plantilla },
+    description: seo.descripcion,
+    applicationName: negocio.nombre,
+    formatDetection: { telephone: false },
+    openGraph: { locale: "es_AR", siteName: negocio.nombre, type: "website" },
+    twitter: { card: "summary_large_image" },
+    verification: {
+      ...(seo.googleVerificacion ? { google: seo.googleVerificacion } : {}),
+      ...(seo.bingVerificacion ? { other: { "msvalidate.01": seo.bingVerificacion } } : {}),
+    },
+  };
+}
 
 export const viewport: Viewport = {
-  themeColor: "#f6f2ec",
+  themeColor: "#f7f4ef",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -48,18 +39,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-AR" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="es-AR" className={inter.variable} suppressHydrationWarning>
       <body>
-        <a href="#contenido" className="skip-link">
-          Saltar al contenido
-        </a>
-        <MotionProvider>
-          <Navbar />
-          <main id="contenido">{children}</main>
-          <Footer />
-          <WhatsAppFlotante />
-        </MotionProvider>
-        <JsonLd data={[schemaNegocio(), schemaDuena()]} />
+        <Proveedores>{children}</Proveedores>
       </body>
     </html>
   );

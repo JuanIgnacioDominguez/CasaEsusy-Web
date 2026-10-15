@@ -1,29 +1,24 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/content/negocio";
+import { getAjuste } from "@/lib/ajustes";
+import { SITE_URL } from "@/lib/whatsapp";
 
-export const dynamic = "force-static";
+export const revalidate = 600;
 
-/** Sección 15: se bloquean áreas privadas; se permiten los buscadores de IA para GEO. */
-export default function robots(): MetadataRoute.Robots {
+/** Se permite a los buscadores y a los asistentes de IA (conviene que citen al negocio). */
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const seo = await getAjuste("seo");
+  const bloqueadas = ["/admin", "/api", "/p/"];
+  const extra = seo.robotsExtra
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.toLowerCase().startsWith("disallow:"))
+    .map((l) => l.slice(9).trim())
+    .filter(Boolean);
+
+  if (!seo.indexar) return { rules: [{ userAgent: "*", disallow: "/" }] };
   return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/admin", "/api", "/p/", "/carrito", "/checkout", "/mi-cuenta"],
-      },
-      {
-        userAgent: [
-          "OAI-SearchBot",
-          "ChatGPT-User",
-          "PerplexityBot",
-          "ClaudeBot",
-          "Claude-SearchBot",
-        ],
-        allow: "/",
-        disallow: ["/admin", "/api", "/p/"],
-      },
-    ],
+    rules: [{ userAgent: "*", allow: "/", disallow: [...bloqueadas, ...extra] }],
     sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }
