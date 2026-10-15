@@ -30,4 +30,7 @@ export const IMAGENES_INCLUIDAS = [
   "/img/instagram/venecianas-new-york.jpg",
   "/img/instagram/frente-local.jpg",
   "/img/instagram/pieza-desde-1967.jpg",
+  "/marcas/flexcolor.png",
+  "/marcas/riel-americano.png",
+  "/marcas/el-espartano.png",
 ];

@@ -275,8 +275,9 @@ function ConfigWhatsApp({ inicial, numero }: { inicial: AjustesWhatsApp; numero:
             <Textarea id="w-msg" value={d.mensaje} onChange={(e) => setD({ ...d, mensaje: e.target.value })} />
           </Field>
           <Field>
-            <FieldLabel htmlFor="w-et">Etiqueta al pasar el mouse</FieldLabel>
+            <FieldLabel htmlFor="w-et">Texto de la burbuja</FieldLabel>
             <Input id="w-et" value={d.etiqueta} onChange={(e) => setD({ ...d, etiqueta: e.target.value })} />
+            <FieldDescription>Aparece cada tanto junto al botón (hasta 3 veces por visita) y al pasar el mouse.</FieldDescription>
           </Field>
           <Button asChild variant="link" className="h-auto self-start px-0">
             <a href={urlWhatsApp(numero, d.mensaje)} target="_blank" rel="noopener">

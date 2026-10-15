@@ -103,7 +103,7 @@ export type AjustesWhatsApp = z.infer<typeof whatsappSchema>;
 export const WHATSAPP_DEFECTO: AjustesWhatsApp = {
   activo: true,
   mensaje: "Hola Casa Esusy, quiero hacer una consulta.",
-  etiqueta: "¿Te asesoramos?",
+  etiqueta: "¿Necesitás ayuda?",
 };
 
 export const inicioSchema = z.object({
@@ -117,8 +117,8 @@ export const inicioSchema = z.object({
 export type AjustesInicio = z.infer<typeof inicioSchema>;
 
 export const INICIO_DEFECTO: AjustesInicio = {
-  rotulo: "Banfield · Desde 1967",
-  titulo: "Cortinas, tapizados y decoración a medida",
+  rotulo: "Casa Esusy · Banfield · Desde 1967",
+  titulo: "a medida, para tu casa.",
   bajada:
     "Cada pieza hecha para tu casa, y diseño de interiores para que todo combine. Medimos sin cargo en Capital, zona sur o donde nos necesites.",
   imagen: "/img/ambientes/living-sillon-gasas.jpg",

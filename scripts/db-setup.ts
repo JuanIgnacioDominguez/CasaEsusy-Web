@@ -67,7 +67,7 @@ async function main() {
  * Actualizaciones de contenido entre versiones del sitio. Se aplican una sola vez
  * (clave `version_contenido`). Pensado para antes del lanzamiento: pisa los textos iniciales.
  */
-const VERSION_CONTENIDO = 2;
+const VERSION_CONTENIDO = 3;
 
 async function actualizarContenido(baseExistente: boolean) {
   const [fila] = await db.select().from(schema.ajustes).where(eq(schema.ajustes.clave, "version_contenido"));
@@ -98,6 +98,17 @@ async function actualizarContenido(baseExistente: boolean) {
         .where(eq(schema.ajustes.clave, "negocio"));
     }
     console.log("✓ Contenido actualizado a la versión 2");
+  }
+
+  if (baseExistente && actual < 3) {
+    // v3: logos y sitios web oficiales de las marcas (solo si no se cargaron a mano).
+    for (const m of MARCAS) {
+      const [fila] = await db.select().from(schema.marcas).where(eq(schema.marcas.nombre, m.nombre));
+      if (fila && !fila.logo) {
+        await db.update(schema.marcas).set({ logo: m.logo, sitioWeb: fila.sitioWeb || m.sitioWeb, rubro: m.rubro, descripcion: m.descripcion }).where(eq(schema.marcas.id, fila.id));
+      }
+    }
+    console.log("✓ Logos de marcas cargados");
   }
 
   await db

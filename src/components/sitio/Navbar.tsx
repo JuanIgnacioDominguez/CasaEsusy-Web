@@ -33,7 +33,7 @@ const ENLACES = [
   { href: "/diseno-de-interiores", texto: "Diseño de interiores", soloXl: false },
   { href: "/catalogos", texto: "Catálogos", soloXl: false },
   { href: "/proyectos", texto: "Trabajos", soloXl: false },
-  { href: "/nosotros", texto: "Nosotros", soloXl: true },
+  { href: "/nosotros", texto: "Nosotros", soloXl: false },
 ];
 
 const ENLACES_MOVIL = [
@@ -146,19 +146,6 @@ export function Navbar({
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex h-10 flex-row items-center gap-1.5 rounded-lg px-3.5 text-[0.95rem] font-medium transition-colors hover:bg-muted"
-                >
-                  <IconoWhatsApp className="size-4 text-[#1FA855]" />
-                  Contacto
-                </a>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 

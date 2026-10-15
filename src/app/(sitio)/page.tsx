@@ -36,7 +36,7 @@ export default async function Inicio() {
 
   return (
     <>
-      <Hero inicio={inicio} negocio={negocio} mensaje={whatsapp.mensaje} />
+      <Hero inicio={inicio} negocio={negocio} mensaje={whatsapp.mensaje} servicios={servicios} />
       <GrillaServicios servicios={servicios.filter((s) => s.slug !== "diseno-de-interiores")} />
       <SeccionDiseno servicio={servicios.find((s) => s.slug === "diseno-de-interiores")} negocio={negocio} />
       <section className="overflow-hidden bg-card py-20 lg:py-28">

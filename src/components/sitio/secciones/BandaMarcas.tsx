@@ -20,7 +20,7 @@ export function BandaMarcas({ marcas, catalogos }: { marcas: Marca[]; catalogos:
       tabIndex={i >= marcas.length ? -1 : undefined}
     >
       {m.logo ? (
-        <Image src={m.logo} alt={m.nombre} width={160} height={56} className="h-10 w-auto object-contain opacity-70 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0" />
+        <Image src={m.logo} alt={m.nombre} width={320} height={96} className="h-11 w-auto max-w-[190px] object-contain opacity-60 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0" />
       ) : (
         <span className="flex flex-col leading-none">
           <span className="text-2xl font-bold tracking-[-0.03em] text-foreground/70 transition-colors group-hover:text-foreground sm:text-3xl">{m.nombre}</span>

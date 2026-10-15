@@ -14,7 +14,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   serverExternalPackages: ["@libsql/client", "libsql", "sharp"],
   images: {
-    formats: ["image/avif", "image/webp"],
+    // Solo WebP: AVIF tarda mucho en generarse y retrasa la primera carga de cada foto.
+    formats: ["image/webp"],
     qualities: [70, 75, 85],
   },
   experimental: {

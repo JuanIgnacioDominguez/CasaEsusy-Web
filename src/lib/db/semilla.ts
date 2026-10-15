@@ -314,9 +314,30 @@ export const PREGUNTAS = [
 
 /** Marcas con las que trabaja el negocio. Se editan y se suman más desde el panel. */
 export const MARCAS = [
-  { nombre: "Flexcolor", rubro: "Cortinas y sistemas", descripcion: "Roller, venecianas y bandas verticales.", orden: 0 },
-  { nombre: "Riel Americano", rubro: "Rieles y barrales", descripcion: "Rieles y sistemas para cortinas de tela.", orden: 1 },
-  { nombre: "El Espartano", rubro: "Alfombras", descripcion: "Alfombras y carpetas.", orden: 2 },
+  {
+    nombre: "Flexcolor",
+    rubro: "Cortinas y sistemas",
+    descripcion: "Roller, venecianas y bandas verticales.",
+    logo: "/marcas/flexcolor.png",
+    sitioWeb: "https://flex-color.com/",
+    orden: 0,
+  },
+  {
+    nombre: "Riel Americano",
+    rubro: "Rieles y sistemas",
+    descripcion: "Rieles, cortinas y automatismos.",
+    logo: "/marcas/riel-americano.png",
+    sitioWeb: "https://rielamericano.com.ar/",
+    orden: 1,
+  },
+  {
+    nombre: "El Espartano",
+    rubro: "Alfombras",
+    descripcion: "Alfombras y carpetas.",
+    logo: "/marcas/el-espartano.png",
+    sitioWeb: "https://elespartano.com.ar/",
+    orden: 2,
+  },
 ];
 
 /** Meta descripciones iniciales (140–160 caracteres, con la zona). Se editan en el panel de SEO. */

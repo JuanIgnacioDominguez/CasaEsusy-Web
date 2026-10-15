@@ -73,6 +73,15 @@
   --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
 
   --animate-marquesina: marquesina 40s linear infinite;
+  --animate-llenar: llenar 6.5s linear forwards;
+  @keyframes llenar {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
   @keyframes marquesina {
     from {
       transform: translateX(0);

@@ -23,7 +23,7 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
       <Card>
         <CardHeader>
           <CardTitle>Portada</CardTitle>
-          <CardDescription>El primer bloque que ve cada visita. Corto, claro y con una foto que enamore.</CardDescription>
+          <CardDescription>El primer bloque que ve cada visita. La palabra grande cambia sola con la foto de cada servicio (Cortinas, Sillones, Alfombras…).</CardDescription>
         </CardHeader>
         <CardContent>
           <FieldGroup>
@@ -32,24 +32,19 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
               <Input id="p-rotulo" value={d.rotulo} onChange={(e) => set("rotulo", e.target.value)} />
             </Field>
             <Field>
-              <FieldLabel htmlFor="p-titulo">Título</FieldLabel>
-              <Textarea id="p-titulo" value={d.titulo} onChange={(e) => set("titulo", e.target.value)} className="min-h-16 text-lg font-semibold" />
-              <FieldDescription>{d.titulo.length} caracteres. Ideal: menos de 50.</FieldDescription>
+              <FieldLabel htmlFor="p-titulo">Frase</FieldLabel>
+              <Input id="p-titulo" value={d.titulo} onChange={(e) => set("titulo", e.target.value)} className="text-lg font-semibold" />
+              <FieldDescription>Acompaña a la palabra que va cambiando: “Cortinas {d.titulo}”. Ideal: menos de 30 caracteres.</FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="p-bajada">Bajada</FieldLabel>
               <Textarea id="p-bajada" value={d.bajada} onChange={(e) => set("bajada", e.target.value)} />
             </Field>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field>
-                <FieldLabel>Foto principal</FieldLabel>
-                <SelectorImagen valor={d.imagen} onCambio={(u) => set("imagen", u)} incluidas={incluidas} subidas={subidas} aspecto="aspect-[4/5]" />
-              </Field>
-              <Field>
-                <FieldLabel>Foto chica (trabajo real)</FieldLabel>
-                <SelectorImagen valor={d.imagenSecundaria} onCambio={(u) => set("imagenSecundaria", u)} incluidas={incluidas} subidas={subidas} />
-              </Field>
-            </div>
+            <Field>
+              <FieldLabel>Primera foto</FieldLabel>
+              <SelectorImagen valor={d.imagen} onCambio={(u) => set("imagen", u)} incluidas={incluidas} subidas={subidas} aspecto="aspect-[16/7]" />
+              <FieldDescription>Después rotan las fotos de cada servicio (se cambian en Servicios).</FieldDescription>
+            </Field>
             <Field>
               <FieldLabel htmlFor="p-nos">Texto de “Nosotros”</FieldLabel>
               <Textarea id="p-nos" value={d.textoNosotros} onChange={(e) => set("textoNosotros", e.target.value)} className="min-h-24" />
@@ -78,28 +73,18 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
         </CardContent>
       </Card>
 
-      <Card className="overflow-hidden bg-marfil text-[#23282e] xl:sticky xl:top-20 xl:self-start dark:bg-marfil">
-        <CardHeader>
-          <CardDescription className="text-[#646a71]">Vista previa</CardDescription>
-        </CardHeader>
-        <CardContent className="grid items-center gap-6 sm:grid-cols-2">
-          <div className="flex flex-col gap-3">
-            <span className="rotulo self-start rounded-full border border-terracota/30 px-2.5 py-1 text-[0.6rem] text-[#a65a3f]">{d.rotulo}</span>
-            <p className="text-3xl leading-[1.05] font-semibold tracking-tight">{d.titulo}</p>
-            <p className="text-sm leading-relaxed text-[#646a71]">{d.bajada}</p>
-            <span className="self-start rounded-full bg-[#3f464e] px-4 py-2 text-xs font-medium text-[#f7f4ef]">Pedir presupuesto sin cargo</span>
-          </div>
-          <div className="relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted">{d.imagen && <Image src={d.imagen} alt="" fill sizes="300px" className="object-cover" />}</div>
-            {d.imagenSecundaria && (
-              <div className="absolute -bottom-4 -left-4 w-2/5 overflow-hidden rounded-xl border-4 border-[#f7f4ef] shadow-lg">
-                <div className="relative aspect-[4/3]">
-                  <Image src={d.imagenSecundaria} alt="" fill sizes="120px" className="object-cover" />
-                </div>
-              </div>
-            )}
-          </div>
-        </CardContent>
+      <Card className="overflow-hidden p-0 xl:sticky xl:top-20 xl:self-start">
+        <div className="relative isolate flex aspect-[4/3] flex-col justify-end gap-3 p-6 text-white sm:aspect-[16/11]">
+          {d.imagen && <Image src={d.imagen} alt="" fill sizes="600px" className="-z-20 object-cover" />}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+          <span className="rotulo self-start rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[0.6rem] text-white/90">{d.rotulo}</span>
+          <p className="text-4xl leading-[0.95] font-semibold tracking-tight">
+            <span className="block text-[#F0B79B]">Cortinas</span>
+            {d.titulo}
+          </p>
+          <p className="max-w-sm text-sm leading-relaxed text-white/80">{d.bajada}</p>
+          <span className="self-start rounded-lg bg-[#a65a3f] px-4 py-2 text-xs font-medium text-white">Pedir presupuesto sin cargo</span>
+        </div>
       </Card>
     </div>
   );
