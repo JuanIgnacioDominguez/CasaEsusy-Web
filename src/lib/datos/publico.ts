@@ -54,3 +54,15 @@ export async function buscarRedireccion(ruta: string) {
   }
   return r ?? null;
 }
+
+export const getMarcas = cache(() =>
+  db.select().from(schema.marcas).where(eq(schema.marcas.publicada, true)).orderBy(asc(schema.marcas.orden), asc(schema.marcas.nombre)),
+);
+
+export const getCatalogos = cache(() =>
+  db
+    .select()
+    .from(schema.catalogos)
+    .where(eq(schema.catalogos.publicado, true))
+    .orderBy(desc(schema.catalogos.destacado), asc(schema.catalogos.orden), desc(schema.catalogos.creado)),
+);

@@ -24,10 +24,12 @@ const PASOS = ["Servicio", "Detalles", "Contacto"];
 export function FormularioPresupuesto({
   servicios,
   zonas,
+  cobertura,
   inicial,
 }: {
   servicios: { slug: string; nombre: string; imagen: string }[];
   zonas: string[];
+  cobertura: string;
   inicial?: string;
 }) {
   const nombreInicial = servicios.find((s) => s.slug === inicial)?.nombre ?? "";
@@ -77,6 +79,8 @@ export function FormularioPresupuesto({
       if (r.ok) {
         setWhatsapp(r.whatsapp);
         ir(3);
+        // Abre WhatsApp con el resumen armado; si el navegador lo bloquea, queda el botón.
+        setTimeout(() => window.location.assign(r.whatsapp), 900);
       } else {
         setErrorGeneral(r.error);
         if (r.campos) setErrores(r.campos);
@@ -336,20 +340,20 @@ export function FormularioPresupuesto({
                   <div className="flex max-w-md flex-col gap-3">
                     <h2 className="text-3xl font-semibold">¡Listo, {datos.nombre.split(" ")[0]}!</h2>
                     <p className="text-lg text-muted-foreground">
-                      Recibimos tu consulta. Te escribimos en el día hábil para coordinar{datos.conVisita ? " la visita" : ""}.
+                      Guardamos tu consulta y te estamos llevando a WhatsApp para que nos la mandes. Te respondemos en el día{datos.conVisita ? " para coordinar la visita" : ""}.
                     </p>
                   </div>
                   {whatsapp && (
                     <div className="flex w-full max-w-sm flex-col gap-3">
-                      <Button asChild size="lg" className="h-13 rounded-full bg-whatsapp text-base text-white hover:bg-[#1FB855]">
+                      <Button asChild size="lg" className="h-13 rounded-lg bg-whatsapp text-base text-white hover:bg-[#1FB855]">
                         <a href={whatsapp} target="_blank" rel="noopener">
-                          <IconoWhatsApp data-icon="inline-start" /> Enviar también por WhatsApp
+                          <IconoWhatsApp data-icon="inline-start" /> Abrir WhatsApp
                         </a>
                       </Button>
-                      <p className="text-sm text-muted-foreground">Si querés una respuesta más rápida, mandanos el resumen por WhatsApp.</p>
+                      <p className="text-sm text-muted-foreground">¿No se abrió? Tocá el botón para enviar el resumen.</p>
                     </div>
                   )}
-                  <Button asChild variant="ghost" className="rounded-full">
+                  <Button asChild variant="ghost" className="rounded-lg">
                     <Link href="/">Volver al inicio</Link>
                   </Button>
                 </div>
@@ -360,17 +364,17 @@ export function FormularioPresupuesto({
 
         {paso > 0 && paso < 3 && (
           <div className="flex items-center justify-between gap-3 border-t pt-6">
-            <Button variant="ghost" size="lg" className="h-12 rounded-full" onClick={() => ir(paso - 1)}>
+            <Button variant="ghost" size="lg" className="h-12 rounded-lg" onClick={() => ir(paso - 1)}>
               <ArrowLeftIcon data-icon="inline-start" /> Atrás
             </Button>
             {paso === 1 ? (
-              <Button size="lg" className="h-12 rounded-full px-7" onClick={() => ir(2)}>
+              <Button size="lg" className="h-12 rounded-lg px-7" onClick={() => ir(2)}>
                 Continuar <ArrowRightIcon data-icon="inline-end" />
               </Button>
             ) : (
-              <Button size="lg" className="h-12 rounded-full px-7" onClick={enviar} disabled={enviando}>
-                {enviando ? <Spinner data-icon="inline-start" /> : null}
-                {enviando ? "Enviando…" : "Enviar consulta"}
+              <Button size="lg" className="h-12 rounded-lg px-7" onClick={enviar} disabled={enviando}>
+                {enviando ? <Spinner data-icon="inline-start" /> : <IconoWhatsApp data-icon="inline-start" />}
+                {enviando ? "Enviando…" : "Enviar por WhatsApp"}
               </Button>
             )}
           </div>
@@ -382,9 +386,9 @@ export function FormularioPresupuesto({
           <p className="text-lg font-semibold">Qué pasa después</p>
           <ol className="flex flex-col gap-4 text-sm text-marfil/80">
             {[
-              "Te escribimos para entender bien lo que buscás.",
+              "Al enviar, se abre WhatsApp con tu consulta lista para mandar.",
               "Coordinamos una visita para medir y llevar muestras.",
-              "Te mandamos el presupuesto detallado por WhatsApp.",
+              "Te pasamos el presupuesto detallado y lo podés aceptar online.",
             ].map((t, i) => (
               <li key={t} className="flex gap-3">
                 <span className="grid size-6 shrink-0 place-items-center rounded-full bg-marfil/10 text-xs font-bold text-marfil">{i + 1}</span>
@@ -393,7 +397,7 @@ export function FormularioPresupuesto({
             ))}
           </ol>
         </div>
-        <p className="px-2 text-sm text-muted-foreground">Sin cargo y sin compromiso. Trabajamos en Banfield y toda la zona sur.</p>
+        <p className="px-2 text-sm text-muted-foreground">Sin cargo y sin compromiso. {cobertura}</p>
       </aside>
     </div>
   );

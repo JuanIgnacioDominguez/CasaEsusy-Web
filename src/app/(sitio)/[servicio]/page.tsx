@@ -8,7 +8,7 @@ import { Aparecer, AparecerItem, Escalonado } from "@/components/motion/Aparecer
 import { IconoWhatsApp } from "@/components/iconos";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ListaPreguntas } from "@/components/sitio/ListaPreguntas";
-import { Migas } from "@/components/sitio/Migas";
+import { Migas, SchemaMigas } from "@/components/sitio/Migas";
 import { Encabezado } from "@/components/sitio/secciones/Encabezado";
 import { LlamadoFinal } from "@/components/sitio/secciones/LlamadoFinal";
 import { getAjuste } from "@/lib/ajustes";
@@ -36,7 +36,8 @@ const VENTAJAS = [
   "Medición y presupuesto sin cargo",
   "Muestras en tu casa para elegir con la luz real",
   "Confección a medida y colocación propia",
-  "Más de medio siglo de oficio en Banfield",
+  "Trabajamos en Capital, zona sur y donde nos necesites",
+  "Más de medio siglo de oficio, desde 1967",
 ];
 
 export default async function PaginaServicio({ params }: Props) {
@@ -59,6 +60,7 @@ export default async function PaginaServicio({ params }: Props) {
       <section className="pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24">
         <div className="contenedor grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col gap-6">
+            <SchemaMigas items={[{ nombre: servicio.nombre, ruta: `/${servicio.slug}` }]} />
             <Aparecer inmediato desplazamiento={8}>
               <Migas items={[{ nombre: servicio.nombre, ruta: `/${servicio.slug}` }]} />
             </Aparecer>
@@ -73,12 +75,12 @@ export default async function PaginaServicio({ params }: Props) {
               <p className="max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">{servicio.bajada}</p>
             </Aparecer>
             <Aparecer inmediato retraso={0.15} className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg" className="h-13 rounded-full px-7 text-base">
+              <Button asChild size="lg" className="h-13 rounded-lg px-7 text-base">
                 <Link href={`/presupuesto?servicio=${servicio.slug}`}>
                   Pedir presupuesto <ArrowRightIcon data-icon="inline-end" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-13 rounded-full bg-card/60 px-7 text-base">
+              <Button asChild size="lg" variant="outline" className="h-13 rounded-lg bg-card/60 px-7 text-base">
                 <a href={urlWhatsApp(negocio.whatsapp, mensaje)} target="_blank" rel="noopener">
                   <IconoWhatsApp data-icon="inline-start" className="text-[#1FA855]" /> Consultar por WhatsApp
                 </a>

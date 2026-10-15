@@ -6,22 +6,22 @@ const PASOS = [
   {
     Icono: MessageCircleIcon,
     titulo: "Nos contás tu idea",
-    texto: "Por WhatsApp, por teléfono o en el local. Con fotos del ambiente ya podemos orientarte.",
+    texto: "Por WhatsApp, por teléfono o en el local. Con un par de fotos del ambiente ya podemos orientarte.",
   },
   {
     Icono: RulerIcon,
     titulo: "Medimos en tu casa",
-    texto: "Vamos con muestras de telas y sistemas para que elijas viendo la luz real. Sin cargo.",
+    texto: "Vamos con muestras a tu casa, en Capital, zona sur o donde estés, para que elijas con la luz real. Sin cargo.",
   },
   {
     Icono: CalendarCheckIcon,
     titulo: "Presupuesto claro",
-    texto: "Te mandamos el detalle por ambiente, con plazos y condiciones. Lo aceptás online.",
+    texto: "Te mandamos el detalle por ambiente, con plazos y condiciones, y lo aceptás online con un clic.",
   },
   {
     Icono: SparklesIcon,
     titulo: "Confección y colocación",
-    texto: "Confeccionamos a medida y nuestro colocador lo instala con prolijidad.",
+    texto: "Confeccionamos a medida y nuestro colocador lo instala prolijo, sin que tengas que ocuparte de nada.",
   },
 ];
 

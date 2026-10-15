@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Migas } from "@/components/sitio/Migas";
+import { Migas, SchemaMigas } from "@/components/sitio/Migas";
 import { getAjuste } from "@/lib/ajustes";
 import type { Negocio } from "@/lib/ajustes/esquemas";
 import { metadataPara } from "@/lib/seo";
@@ -48,6 +48,7 @@ export default async function Legal({ params }: { params: Promise<{ doc: string 
   return (
     <section className="pt-28 pb-24 sm:pt-32 lg:pt-36">
       <div className="contenedor flex max-w-3xl flex-col gap-8">
+        <SchemaMigas items={[{ nombre: d.titulo, ruta: `/legales/${doc}` }]} />
         <Migas items={[{ nombre: d.titulo, ruta: `/legales/${doc}` }]} />
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{d.titulo}</h1>
         {d.secciones(negocio).map(([titulo, texto]) => (

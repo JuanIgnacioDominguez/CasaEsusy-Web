@@ -21,6 +21,13 @@ export function paginasFijas(n: Negocio): PaginaBase[] {
       descripcion: "Cortinas, venecianas, empapelados, acolchados y más: trabajos reales de Casa Esusy en casas y comercios de zona sur.",
     },
     {
+      ruta: "/catalogos",
+      nombre: "Catálogos",
+      tipo: "fija",
+      titulo: "Catálogos de telas, cortinas y empapelados",
+      descripcion: "Mirá online los catálogos de las marcas con las que trabajamos: telas, cortinas roller y venecianas, rieles, empapelados y alfombras. Consultanos por WhatsApp.",
+    },
+    {
       ruta: "/nosotros",
       nombre: "Nosotros",
       tipo: "fija",
@@ -38,8 +45,8 @@ export function paginasFijas(n: Negocio): PaginaBase[] {
       ruta: "/contacto",
       nombre: "Contacto",
       tipo: "fija",
-      titulo: "Contacto y cómo llegar",
-      descripcion: `${n.calle}, ${n.localidad}. WhatsApp ${n.telefonoVisible}. Lunes a viernes y sábados. Presupuesto sin cargo.`,
+      titulo: "Contacto por WhatsApp y cómo llegar",
+      descripcion: `Escribinos por WhatsApp al ${n.telefonoVisible}. Local en ${n.calle}, ${n.localidad}. Trabajamos en Capital, zona sur y donde nos necesites.`,
     },
     {
       ruta: "/preguntas-frecuentes",

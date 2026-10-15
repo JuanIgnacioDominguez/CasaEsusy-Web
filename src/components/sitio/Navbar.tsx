@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMotionValueEvent, useScroll } from "motion/react";
-import { ArrowRightIcon, MenuIcon, PhoneIcon } from "lucide-react";
+import { ArrowRightIcon, MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -28,23 +28,29 @@ export interface ServicioNav {
   imagen: string;
 }
 
+/** Enlaces del menú de escritorio. "soloXl" se esconde en pantallas medianas para que no se apriete. */
 const ENLACES = [
+  { href: "/diseno-de-interiores", texto: "Diseño de interiores", soloXl: false },
+  { href: "/catalogos", texto: "Catálogos", soloXl: false },
+  { href: "/proyectos", texto: "Trabajos", soloXl: false },
+  { href: "/nosotros", texto: "Nosotros", soloXl: true },
+];
+
+const ENLACES_MOVIL = [
+  { href: "/diseno-de-interiores", texto: "Diseño de interiores" },
+  { href: "/catalogos", texto: "Catálogos y marcas" },
   { href: "/proyectos", texto: "Trabajos" },
   { href: "/nosotros", texto: "Nosotros" },
-  { href: "/preguntas-frecuentes", texto: "Preguntas" },
-  { href: "/contacto", texto: "Contacto" },
+  { href: "/preguntas-frecuentes", texto: "Preguntas frecuentes" },
+  { href: "/contacto", texto: "Contacto y cómo llegar" },
 ];
 
 export function Navbar({
   servicios,
-  telefono,
-  telefonoHref,
   whatsappHref,
   instagram,
 }: {
   servicios: ServicioNav[];
-  telefono: string;
-  telefonoHref: string;
   whatsappHref: string;
   instagram: string;
 }) {
@@ -56,6 +62,8 @@ export function Navbar({
 
   const activo = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
   const servicioActivo = servicios.some((s) => activo(`/${s.slug}`));
+  // Diseño de interiores tiene su propio enlace: no se repite en la lista de servicios.
+  const productos = servicios.filter((s) => s.slug !== "diseno-de-interiores");
 
   return (
     <header
@@ -68,26 +76,26 @@ export function Navbar({
     >
       <div
         className={cn(
-          "contenedor flex items-center justify-between gap-6 transition-[height] duration-300",
+          "contenedor grid grid-cols-[1fr_auto] items-center gap-6 transition-[height] duration-300 lg:grid-cols-[1fr_auto_1fr]",
           compacto ? "h-16" : "h-[4.75rem]",
         )}
       >
-        <Link href="/" aria-label="Casa Esusy, ir al inicio" className="shrink-0 rounded-md focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
+        <Link href="/" aria-label="Casa Esusy, ir al inicio" className="shrink-0 justify-self-start rounded-md focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
           <Logo prioridad className={cn("transition-[height] duration-300", compacto ? "h-9" : "h-10 sm:h-11")} />
         </Link>
 
-        <NavigationMenu viewport={false} className="hidden lg:flex">
-          <NavigationMenuList className="gap-1">
+        <NavigationMenu viewport={false} className="hidden justify-self-center lg:flex">
+          <NavigationMenuList className="gap-0.5">
             <NavigationMenuItem>
               <NavigationMenuTrigger
-                className={cn("h-10 rounded-full bg-transparent px-4 text-[0.95rem]", servicioActivo && "text-terracota")}
+                className={cn("h-10 rounded-lg bg-transparent px-3.5 text-[0.95rem]", servicioActivo && "text-terracota")}
               >
                 Servicios
               </NavigationMenuTrigger>
               <NavigationMenuContent className="!w-[min(92vw,760px)] !rounded-3xl !p-3">
                 <div className="grid grid-cols-[1fr_15rem] gap-3">
                   <ul className="grid grid-cols-2 gap-1">
-                    {servicios.map((s) => (
+                    {productos.map((s) => (
                       <li key={s.slug}>
                         <NavigationMenuLink asChild>
                           <Link
@@ -124,12 +132,12 @@ export function Navbar({
               </NavigationMenuContent>
             </NavigationMenuItem>
             {ENLACES.map((e) => (
-              <NavigationMenuItem key={e.href}>
+              <NavigationMenuItem key={e.href} className={e.soloXl ? "hidden xl:block" : undefined}>
                 <NavigationMenuLink asChild active={activo(e.href)}>
                   <Link
                     href={e.href}
                     className={cn(
-                      "inline-flex h-10 items-center rounded-full px-4 text-[0.95rem] font-medium transition-colors hover:bg-muted",
+                      "inline-flex h-10 items-center rounded-lg px-3.5 text-[0.95rem] font-medium whitespace-nowrap transition-colors hover:bg-muted",
                       activo(e.href) && "text-terracota",
                     )}
                   >
@@ -138,24 +146,30 @@ export function Navbar({
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex h-10 flex-row items-center gap-1.5 rounded-lg px-3.5 text-[0.95rem] font-medium transition-colors hover:bg-muted"
+                >
+                  <IconoWhatsApp className="size-4 text-[#1FA855]" />
+                  Contacto
+                </a>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={telefonoHref}
-            className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground xl:inline-flex"
-          >
-            <PhoneIcon className="size-4" />
-            {telefono}
-          </a>
-          <Button asChild size="lg" className="hidden h-11 rounded-full px-5 text-[0.95rem] sm:inline-flex">
+        <div className="flex items-center gap-2 justify-self-end">
+          <Button asChild size="lg" className="hidden h-11 rounded-lg px-5 text-[0.95rem] sm:inline-flex">
             <Link href="/presupuesto">Pedir presupuesto</Link>
           </Button>
 
           <Sheet open={abierto} onOpenChange={setAbierto}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon-lg" className="size-11 rounded-full lg:hidden" aria-label="Abrir menú">
+              <Button variant="ghost" size="icon-lg" className="size-11 rounded-lg lg:hidden" aria-label="Abrir menú">
                 <MenuIcon className="size-6" />
               </Button>
             </SheetTrigger>
@@ -168,7 +182,7 @@ export function Navbar({
               <nav className="flex flex-col gap-1 px-4 py-4" aria-label="Principal">
                 <p className="rotulo px-2 pb-2 text-muted-foreground">Servicios</p>
                 <div className="grid grid-cols-2 gap-2">
-                  {servicios.map((s) => (
+                  {productos.map((s) => (
                     <Link
                       key={s.slug}
                       href={`/${s.slug}`}
@@ -182,7 +196,7 @@ export function Navbar({
                   ))}
                 </div>
                 <Separator className="my-4" />
-                {ENLACES.map((e) => (
+                {ENLACES_MOVIL.map((e) => (
                   <Link
                     key={e.href}
                     href={e.href}
@@ -198,18 +212,18 @@ export function Navbar({
                 ))}
               </nav>
               <div className="mt-auto flex flex-col gap-2 border-t bg-muted/50 p-4">
-                <Button asChild size="lg" className="h-12 rounded-full text-base">
+                <Button asChild size="lg" className="h-12 rounded-lg text-base">
                   <Link href="/presupuesto" onClick={() => setAbierto(false)}>
                     Pedir presupuesto sin cargo
                   </Link>
                 </Button>
                 <div className="grid grid-cols-2 gap-2">
-                  <Button asChild variant="outline" size="lg" className="h-12 rounded-full">
+                  <Button asChild variant="outline" size="lg" className="h-12 rounded-lg">
                     <a href={whatsappHref} target="_blank" rel="noopener">
                       <IconoWhatsApp data-icon="inline-start" /> WhatsApp
                     </a>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="h-12 rounded-full">
+                  <Button asChild variant="outline" size="lg" className="h-12 rounded-lg">
                     <a href={instagram} target="_blank" rel="noopener">
                       <IconoInstagram data-icon="inline-start" /> Instagram
                     </a>

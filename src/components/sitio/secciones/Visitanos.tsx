@@ -14,7 +14,7 @@ export function Visitanos({ negocio }: { negocio: Negocio }) {
         <Encabezado
           rotulo="Visitanos"
           titulo="Vení a ver y tocar las telas"
-          bajada={`Estamos en ${negocio.calle}, ${negocio.localidad}. Medimos y colocamos en toda la zona sur.`}
+          bajada={`Nuestro local está en ${negocio.calle}, ${negocio.localidad}. ${negocio.cobertura}`}
         />
         <div className="grid gap-4 lg:grid-cols-[1fr_24rem]">
           <Aparecer className="relative min-h-[22rem] overflow-hidden rounded-[1.75rem] border bg-muted">
@@ -53,12 +53,12 @@ export function Visitanos({ negocio }: { negocio: Negocio }) {
               <AccessibilityIcon className="size-4" /> Local accesible en silla de ruedas
             </p>
             <div className="mt-auto grid grid-cols-2 gap-2">
-              <Button asChild size="lg" className="h-12 rounded-full">
+              <Button asChild size="lg" className="h-12 rounded-lg">
                 <a href={negocio.googleMaps} target="_blank" rel="noopener">
                   <NavigationIcon data-icon="inline-start" /> Cómo llegar
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 rounded-full">
+              <Button asChild size="lg" variant="outline" className="h-12 rounded-lg">
                 <a href={`tel:+${negocio.whatsapp}`}>
                   <PhoneIcon data-icon="inline-start" /> Llamar
                 </a>

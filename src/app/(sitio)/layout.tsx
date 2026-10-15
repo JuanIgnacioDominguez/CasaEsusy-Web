@@ -23,8 +23,6 @@ export default async function SitioLayout({ children }: { children: React.ReactN
       </a>
       <Navbar
         servicios={servicios.map(({ slug, nombre, bajada, imagen }) => ({ slug, nombre, bajada, imagen }))}
-        telefono={negocio.telefonoVisible}
-        telefonoHref={`tel:+${negocio.whatsapp}`}
         whatsappHref={urlWhatsApp(negocio.whatsapp, whatsapp.mensaje)}
         instagram={negocio.instagram}
       />

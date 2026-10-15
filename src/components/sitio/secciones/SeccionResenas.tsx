@@ -21,7 +21,7 @@ export function SeccionResenas({ resenas, negocio }: { resenas: Resena[]; negoci
             <IconoGoogle className="size-4" /> {negocio.googleOpiniones} opiniones en Google
           </p>
           <div className="flex flex-col gap-2 pt-2">
-            <Button asChild size="lg" className="h-12 rounded-full bg-marfil text-pizarra hover:bg-marfil/90">
+            <Button asChild size="lg" className="h-12 rounded-lg bg-marfil text-pizarra hover:bg-marfil/90">
               <a href={negocio.googleResenas} target="_blank" rel="noopener">
                 Ver opiniones en Google
               </a>

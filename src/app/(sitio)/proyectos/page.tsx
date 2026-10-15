@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Aparecer } from "@/components/motion/Aparecer";
 import { IconoInstagram } from "@/components/iconos";
 import { GaleriaTrabajos } from "@/components/sitio/GaleriaTrabajos";
-import { Migas } from "@/components/sitio/Migas";
+import { Migas, SchemaMigas } from "@/components/sitio/Migas";
 import { LlamadoFinal } from "@/components/sitio/secciones/LlamadoFinal";
 import { getAjuste } from "@/lib/ajustes";
 import { getProyectos, getServicios } from "@/lib/datos/publico";
@@ -23,6 +23,7 @@ export default async function Proyectos() {
     <>
       <section className="pt-28 pb-20 sm:pt-32 lg:pt-36">
         <div className="contenedor flex flex-col gap-10">
+          <SchemaMigas items={[{ nombre: "Trabajos", ruta: "/proyectos" }]} />
           <Aparecer inmediato className="flex flex-col gap-5">
             <Migas items={[{ nombre: "Trabajos", ruta: "/proyectos" }]} />
             <h1 className="max-w-3xl text-[2.4rem] leading-[1.04] font-semibold tracking-[-0.03em] sm:text-5xl lg:text-6xl">

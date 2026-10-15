@@ -131,6 +131,13 @@
   --sidebar-ring: #a65a3f;
 }
 
+/* En el sitio público el color de acción es la terracota (botones, links, switches).
+   El panel sigue con la pizarra. Se detecta por el <main id="contenido"> del sitio. */
+:root:has(main#contenido) {
+  --primary: var(--terracota);
+  --primary-foreground: #ffffff;
+}
+
 .dark {
   --terracota: #d4906f;
   --terracota-suave: #3a2a23;

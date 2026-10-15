@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Aparecer } from "@/components/motion/Aparecer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ListaPreguntas } from "@/components/sitio/ListaPreguntas";
-import { Migas } from "@/components/sitio/Migas";
+import { Migas, SchemaMigas } from "@/components/sitio/Migas";
 import { LlamadoFinal } from "@/components/sitio/secciones/LlamadoFinal";
 import { getAjuste } from "@/lib/ajustes";
 import { getPreguntas, getServicios } from "@/lib/datos/publico";
@@ -24,6 +24,7 @@ export default async function Preguntas() {
     <>
       <section className="pt-28 pb-20 sm:pt-32 lg:pt-36">
         <div className="contenedor grid gap-12 lg:grid-cols-[18rem_1fr] lg:gap-16">
+          <SchemaMigas items={[{ nombre: "Preguntas frecuentes", ruta: "/preguntas-frecuentes" }]} />
           <Aparecer inmediato className="flex flex-col gap-5 lg:sticky lg:top-28 lg:self-start">
             <Migas items={[{ nombre: "Preguntas frecuentes", ruta: "/preguntas-frecuentes" }]} />
             <h1 className="text-[2.4rem] leading-[1.04] font-semibold tracking-[-0.03em] sm:text-5xl">Preguntas frecuentes</h1>

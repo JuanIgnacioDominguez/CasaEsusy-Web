@@ -14,12 +14,12 @@ export default function NoEncontrada() {
         <h1 className="text-3xl font-semibold">Esta página no existe</h1>
         <p className="text-lg text-muted-foreground">Puede que el enlace haya cambiado. Te dejamos algunos caminos:</p>
         <div className="flex flex-wrap justify-center gap-2">
-          <Button asChild size="lg" className="h-12 rounded-full px-6">
+          <Button asChild size="lg" className="h-12 rounded-lg px-6">
             <Link href="/">
               <ArrowLeftIcon data-icon="inline-start" /> Ir al inicio
             </Link>
           </Button>
-          <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-6">
+          <Button asChild size="lg" variant="outline" className="h-12 rounded-lg px-6">
             <Link href="/presupuesto">Pedir presupuesto</Link>
           </Button>
         </div>

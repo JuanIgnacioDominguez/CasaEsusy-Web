@@ -2,7 +2,7 @@ import { readFile, stat } from "node:fs/promises";
 import { join, normalize, sep } from "node:path";
 import { DIR_SUBIDAS } from "@/lib/medios";
 
-const TIPOS: Record<string, string> = { webp: "image/webp", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", avif: "image/avif" };
+const TIPOS: Record<string, string> = { webp: "image/webp", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", avif: "image/avif", pdf: "application/pdf" };
 
 /** Sirve las imágenes subidas desde el panel (data/uploads), con caché larga. */
 export async function GET(_: Request, { params }: { params: Promise<{ ruta: string[] }> }) {
@@ -19,6 +19,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ ruta: stri
         "Cache-Control": "public, max-age=31536000, immutable",
         "Last-Modified": info.mtime.toUTCString(),
         "X-Content-Type-Options": "nosniff",
+        ...(ext === "pdf" ? { "Content-Disposition": "inline" } : {}),
       },
     });
   } catch {

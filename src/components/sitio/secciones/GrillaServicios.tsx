@@ -6,15 +6,14 @@ import type { Servicio } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 import { Encabezado } from "./Encabezado";
 
-/** Posición de cada tarjeta en la grilla bento (4 columnas × 3 filas en desktop). */
+/** Posición de cada tarjeta en la grilla bento (4 columnas × 3 filas en desktop, 6 servicios). */
 const FORMAS = [
   "min-h-[24rem] sm:col-span-2 lg:row-span-2",
   "lg:col-span-2",
   "",
   "",
-  "",
-  "",
   "lg:col-span-2",
+  "sm:col-span-2",
 ];
 
 export function GrillaServicios({ servicios }: { servicios: Servicio[] }) {
@@ -24,8 +23,8 @@ export function GrillaServicios({ servicios }: { servicios: Servicio[] }) {
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <Encabezado
             rotulo="Qué hacemos"
-            titulo="Todo para vestir tu casa, en un solo lugar"
-            bajada="Elegí por dónde empezar. Te asesoramos en el local o vamos a tu casa con muestras."
+            titulo="Todo para tu casa, hecho a medida"
+            bajada="Elegí por dónde empezar. Te asesoramos en el local o vamos a tu casa con muestras, sin cargo."
           />
         </div>
         <Escalonado className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[17rem] lg:grid-cols-4">

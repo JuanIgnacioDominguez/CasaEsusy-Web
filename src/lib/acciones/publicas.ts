@@ -82,3 +82,46 @@ export async function enviarConsulta(datos: DatosConsulta): Promise<ResultadoCon
 
   return { ok: true, whatsapp: urlWhatsApp(negocio.whatsapp, lineas.join("\n")) };
 }
+
+const contactoSchema = z.object({
+  nombre: z.string().trim().min(2, "Ingresá tu nombre").max(80),
+  tema: z.string().max(80),
+  mensaje: z.string().trim().max(1500),
+  web: z.string().max(0),
+});
+
+export type DatosContacto = z.infer<typeof contactoSchema>;
+
+/**
+ * Contacto rápido: registra la consulta en el panel y devuelve el link de WhatsApp
+ * con el mensaje ya armado. Si algo falla igual devuelve el link, para no perder el contacto.
+ */
+export async function enviarContacto(datos: DatosContacto): Promise<ResultadoConsulta> {
+  const negocio = await getAjuste("negocio");
+  const parsed = contactoSchema.safeParse(datos);
+  if (!parsed.success) {
+    const campos: Partial<Record<keyof DatosConsulta, string>> = {};
+    for (const issue of parsed.error.issues) if (issue.path[0] === "nombre") campos.nombre = issue.message;
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Revisá los datos", campos };
+  }
+  const d = parsed.data;
+  const texto = [
+    `Hola Casa Esusy, soy ${d.nombre}.`,
+    d.tema ? `Les escribo por ${d.tema.toLowerCase()}.` : "Quiero hacer una consulta.",
+    d.mensaje,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const whatsapp = urlWhatsApp(negocio.whatsapp, texto);
+
+  const h = await headers();
+  const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? h.get("x-real-ip") ?? "local";
+  if (permitido(ip)) {
+    const [consulta] = await db
+      .insert(schema.consultas)
+      .values({ nombre: d.nombre, servicio: d.tema, mensaje: d.mensaje, origen: "web", notas: "Contacto rápido: siguió por WhatsApp." })
+      .returning({ id: schema.consultas.id });
+    await registrar(null, "creó", "consulta", consulta?.id ?? null, `${d.nombre} · contacto por WhatsApp`);
+  }
+  return { ok: true, whatsapp };
+}

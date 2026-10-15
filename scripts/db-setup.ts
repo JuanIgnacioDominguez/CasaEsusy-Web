@@ -6,7 +6,8 @@ import { mkdirSync } from "node:fs";
 import { count, eq } from "drizzle-orm";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { db, DATABASE_URL, schema } from "../src/lib/db";
-import { PRECIOS, PREGUNTAS, PROYECTOS, RESENAS, SEO_INICIAL, SERVICIOS } from "../src/lib/db/semilla";
+import { MARCAS, PRECIOS, PREGUNTAS, PROYECTOS, RESENAS, SEO_INICIAL, SERVICIOS } from "../src/lib/db/semilla";
+import { NEGOCIO_DEFECTO } from "../src/lib/ajustes/esquemas";
 import { hashearClave } from "../src/lib/auth/clave";
 
 async function main() {
@@ -28,6 +29,14 @@ async function main() {
     await db.insert(schema.seoPaginas).values(SEO_INICIAL);
     console.log("✓ Descripciones SEO iniciales cargadas");
   }
+
+  const hayMarcas = (await db.select({ n: count() }).from(schema.marcas))[0]?.n ?? 0;
+  if (hayMarcas === 0) {
+    await db.insert(schema.marcas).values(MARCAS);
+    console.log("✓ Marcas cargadas");
+  }
+
+  await actualizarContenido(hayServicios > 0);
 
   const hayUsuarios = (await db.select({ n: count() }).from(schema.usuarios))[0]?.n ?? 0;
   if (hayUsuarios === 0) {
@@ -52,6 +61,49 @@ async function main() {
     console.log("✓ Contraseña restablecida");
   }
   console.log("✓ Base lista:", DATABASE_URL);
+}
+
+/**
+ * Actualizaciones de contenido entre versiones del sitio. Se aplican una sola vez
+ * (clave `version_contenido`). Pensado para antes del lanzamiento: pisa los textos iniciales.
+ */
+const VERSION_CONTENIDO = 2;
+
+async function actualizarContenido(baseExistente: boolean) {
+  const [fila] = await db.select().from(schema.ajustes).where(eq(schema.ajustes.clave, "version_contenido"));
+  const actual = Number(fila?.valor ?? 1);
+  if (actual >= VERSION_CONTENIDO) return;
+
+  if (baseExistente && actual < 2) {
+    // v2: cobertura sin límite (Capital, zona sur y donde se necesite), textos nuevos y diseño de interiores.
+    for (const s of SERVICIOS) {
+      await db
+        .update(schema.servicios)
+        .set({ titulo: s.titulo, bajada: s.bajada, descripcion: s.descripcion, tipos: s.tipos, preguntas: s.preguntas, mensajeWhatsApp: s.mensajeWhatsApp })
+        .where(eq(schema.servicios.slug, s.slug));
+    }
+    await db.delete(schema.preguntas);
+    await db.insert(schema.preguntas).values(PREGUNTAS.map((p, i) => ({ ...p, orden: i })));
+    for (const seo of SEO_INICIAL) {
+      await db
+        .insert(schema.seoPaginas)
+        .values(seo)
+        .onConflictDoUpdate({ target: schema.seoPaginas.ruta, set: { descripcion: seo.descripcion } });
+    }
+    const [negocio] = await db.select().from(schema.ajustes).where(eq(schema.ajustes.clave, "negocio"));
+    if (negocio) {
+      await db
+        .update(schema.ajustes)
+        .set({ valor: { ...(negocio.valor as object), zonas: NEGOCIO_DEFECTO.zonas, cobertura: NEGOCIO_DEFECTO.cobertura } })
+        .where(eq(schema.ajustes.clave, "negocio"));
+    }
+    console.log("✓ Contenido actualizado a la versión 2");
+  }
+
+  await db
+    .insert(schema.ajustes)
+    .values({ clave: "version_contenido", valor: VERSION_CONTENIDO })
+    .onConflictDoUpdate({ target: schema.ajustes.clave, set: { valor: VERSION_CONTENIDO } });
 }
 
 main().catch((e) => {

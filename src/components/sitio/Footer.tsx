@@ -13,7 +13,7 @@ export function Footer({ negocio, servicios }: { negocio: Negocio; servicios: { 
       <div className="contenedor grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr] lg:py-20">
         <div className="flex flex-col gap-5">
           <Logo variante="claro" className="h-12 w-auto self-start" />
-          <p className="max-w-xs text-sm leading-relaxed text-marfil/65">{negocio.lema}. Tres generaciones eligiendo telas.</p>
+          <p className="max-w-xs text-sm leading-relaxed text-marfil/65">{negocio.lema}. {negocio.cobertura}</p>
           <div className="flex gap-2">
             {[
               { href: negocio.instagram, label: "Instagram", Icono: IconoInstagram },
@@ -47,6 +47,7 @@ export function Footer({ negocio, servicios }: { negocio: Negocio; servicios: { 
           <p className="rotulo text-marfil/45">Casa Esusy</p>
           {[
             ["/proyectos", "Trabajos realizados"],
+            ["/catalogos", "Catálogos y marcas"],
             ["/nosotros", "Nuestra historia"],
             ["/presupuesto", "Pedir presupuesto"],
             ["/preguntas-frecuentes", "Preguntas frecuentes"],

@@ -91,16 +91,16 @@ export function GaleriaTrabajos({ trabajos, servicios }: { trabajos: TrabajoGale
                 <DialogDescription className="text-base leading-relaxed">{actual.descripcion}</DialogDescription>
                 {actual.ubicacion && <p className="text-sm text-muted-foreground">{actual.ubicacion}</p>}
                 <div className="mt-auto flex flex-col gap-3 pt-4">
-                  <Button asChild size="lg" className="h-12 rounded-full">
+                  <Button asChild size="lg" className="h-12 rounded-lg">
                     <Link href={`/presupuesto?servicio=${actual.servicio}`}>
                       Quiero algo así <ArrowRightIcon data-icon="inline-end" />
                     </Link>
                   </Button>
                   <div className="flex justify-between">
-                    <Button variant="ghost" size="lg" className="rounded-full" onClick={() => mover(-1)}>
+                    <Button variant="ghost" size="lg" className="rounded-lg" onClick={() => mover(-1)}>
                       <ChevronLeftIcon data-icon="inline-start" /> Anterior
                     </Button>
-                    <Button variant="ghost" size="lg" className="rounded-full" onClick={() => mover(1)}>
+                    <Button variant="ghost" size="lg" className="rounded-lg" onClick={() => mover(1)}>
                       Siguiente <ChevronRightIcon data-icon="inline-end" />
                     </Button>
                   </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { AwardIcon, HandHeartIcon, RulerIcon, ScissorsIcon } from "lucide-react";
 import { Aparecer, AparecerItem, Escalonado } from "@/components/motion/Aparecer";
-import { Migas } from "@/components/sitio/Migas";
+import { Migas, SchemaMigas } from "@/components/sitio/Migas";
 import { Encabezado } from "@/components/sitio/secciones/Encabezado";
 import { LlamadoFinal } from "@/components/sitio/secciones/LlamadoFinal";
 import { getAjuste } from "@/lib/ajustes";
@@ -23,7 +23,7 @@ export default async function Nosotros() {
   const hitos = [
     { anio: String(negocio.fundacion), titulo: "Empieza la historia", texto: `Abrimos en ${negocio.localidad} eligiendo telas para las casas del barrio.` },
     { anio: "Tres generaciones", titulo: "El oficio se hereda", texto: "La dedicación y el ojo para las telas pasan de una generación a la siguiente." },
-    { anio: "Hoy", titulo: "Decoración integral", texto: "Cortinas, tapizados, alfombras, empapelados, pisos y proyectos completos, con colocación propia." },
+    { anio: "Hoy", titulo: "Decoración integral", texto: `Cortinas, tapizados, alfombras, empapelados, pisos y diseño de interiores, con colocación propia. ${negocio.cobertura}` },
     { anio: String(negocio.duenaAnio), titulo: "Diseño de interiores", texto: `${negocio.duenaNombre} se certifica en ${negocio.duenaCredencial} (${negocio.duenaInstitucion}).` },
   ];
 
@@ -31,6 +31,7 @@ export default async function Nosotros() {
     <>
       <section className="pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24">
         <div className="contenedor grid items-end gap-12 lg:grid-cols-2 lg:gap-16">
+          <SchemaMigas items={[{ nombre: "Nosotros", ruta: "/nosotros" }]} />
           <Aparecer inmediato className="flex flex-col gap-6">
             <Migas items={[{ nombre: "Nosotros", ruta: "/nosotros" }]} />
             <span className="rotulo text-terracota">

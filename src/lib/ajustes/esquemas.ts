@@ -37,6 +37,8 @@ export const negocioSchema = z.object({
   googleOpiniones: z.number().int().min(0),
   horarios: z.array(horario),
   zonas: z.array(z.string()),
+  /** Frase de cobertura que se muestra en el sitio. */
+  cobertura: z.string(),
   duenaNombre: z.string(),
   duenaCredencial: z.string(),
   duenaInstitucion: z.string(),
@@ -48,7 +50,7 @@ export const NEGOCIO_DEFECTO: Negocio = {
   nombre: "Casa Esusy",
   lema: "Decoración integral en Banfield desde 1967",
   descripcion:
-    "Casa de decoración familiar en Banfield desde 1967. Cortinas a medida, sillones y tapizados, acolchados, alfombras, empapelados, pisos y diseño de interiores, con colocación propia y presupuesto sin cargo.",
+    "Casa de decoración familiar con local en Banfield desde 1967. Cortinas a medida, sillones y tapizados, acolchados, alfombras, empapelados, pisos y diseño de interiores, con colocación propia y presupuesto sin cargo en Capital Federal, zona sur y donde nos necesiten.",
   fundacion: 1967,
   telefonoVisible: "11 5598-4126",
   whatsapp: "5491155984126",
@@ -73,6 +75,7 @@ export const NEGOCIO_DEFECTO: Negocio = {
     { dias: "Sábados", desde: "10:00", hasta: "14:00", diasSemana: [6] },
   ],
   zonas: [
+    "Capital Federal",
     "Banfield",
     "Lomas de Zamora",
     "Temperley",
@@ -80,7 +83,10 @@ export const NEGOCIO_DEFECTO: Negocio = {
     "Lanús",
     "Remedios de Escalada",
     "Turdera",
+    "Avellaneda",
+    "Quilmes",
   ],
+  cobertura: "Trabajamos en Capital Federal, en toda la zona sur y donde nos necesites.",
   duenaNombre: "Andrea Esusy",
   duenaCredencial: "Diseño y Decoración de Interiores",
   duenaInstitucion: "DECOmobi, Lomas de Zamora",
@@ -114,11 +120,11 @@ export const INICIO_DEFECTO: AjustesInicio = {
   rotulo: "Banfield · Desde 1967",
   titulo: "Cortinas, tapizados y decoración a medida",
   bajada:
-    "Te asesoramos en el local o en tu casa, medimos sin cargo y nos ocupamos de la confección y la colocación.",
+    "Cada pieza hecha para tu casa, y diseño de interiores para que todo combine. Medimos sin cargo en Capital, zona sur o donde nos necesites.",
   imagen: "/img/ambientes/living-sillon-gasas.jpg",
   imagenSecundaria: "/img/instagram/gasas-ventanal.jpg",
   textoNosotros:
-    "Somos una casa de decoración familiar. Empezamos en 1967 eligiendo telas y hoy, tres generaciones después, seguimos haciendo lo mismo: escuchar, medir con cuidado y entregar trabajos prolijos.",
+    "Somos una casa de decoración familiar. Empezamos en 1967 eligiendo telas para las casas del barrio y hoy, tres generaciones después, seguimos igual: escuchamos, medimos con cuidado y entregamos trabajos prolijos, desde una cortina hasta un ambiente completo.",
 };
 
 export const seoSchema = z.object({

@@ -152,6 +152,52 @@ export const medios = sqliteTable("medios", {
   creado: creado(),
 });
 
+/* ───────────── Marcas y catálogos ───────────── */
+
+export const marcas = sqliteTable("marcas", {
+  id: id(),
+  nombre: text("nombre").notNull().unique(),
+  descripcion: text("descripcion").notNull().default(""),
+  rubro: text("rubro").notNull().default(""),
+  logo: text("logo").notNull().default(""),
+  sitioWeb: text("sitio_web").notNull().default(""),
+  orden: integer("orden").notNull().default(0),
+  publicada: integer("publicada", { mode: "boolean" }).notNull().default(true),
+  creado: creado(),
+});
+
+export const CATEGORIAS_CATALOGO = [
+  "Telas",
+  "Cortinas y sistemas",
+  "Rieles y barrales",
+  "Empapelados",
+  "Alfombras",
+  "Pisos",
+  "Otros",
+] as const;
+
+export const catalogos = sqliteTable(
+  "catalogos",
+  {
+    id: id(),
+    titulo: text("titulo").notNull(),
+    descripcion: text("descripcion").notNull().default(""),
+    categoria: text("categoria").notNull().default("Telas"),
+    marcaId: text("marca_id").references(() => marcas.id, { onDelete: "set null" }),
+    /** pdf: archivo subido · imagenes: galería de fotos · enlace: catálogo online de la marca */
+    tipo: text("tipo", { enum: ["pdf", "imagenes", "enlace"] }).notNull().default("pdf"),
+    archivo: text("archivo").notNull().default(""),
+    enlace: text("enlace").notNull().default(""),
+    portada: text("portada").notNull().default(""),
+    imagenes: text("imagenes", { mode: "json" }).$type<string[]>().notNull().default([]),
+    destacado: integer("destacado", { mode: "boolean" }).notNull().default(false),
+    publicado: integer("publicado", { mode: "boolean" }).notNull().default(true),
+    orden: integer("orden").notNull().default(0),
+    creado: creado(),
+  },
+  (t) => [index("catalogos_categoria_idx").on(t.categoria)],
+);
+
 /* ───────────── Operación ───────────── */
 
 export const clientes = sqliteTable(
@@ -329,3 +375,5 @@ export type Precio = typeof precios.$inferSelect;
 export type Redireccion = typeof redirecciones.$inferSelect;
 export type SeoPagina = typeof seoPaginas.$inferSelect;
 export type Actividad = typeof actividad.$inferSelect;
+export type Marca = typeof marcas.$inferSelect;
+export type Catalogo = typeof catalogos.$inferSelect;

@@ -241,3 +241,6 @@ export const listarUsuarios = () =>
     .orderBy(asc(schema.usuarios.creado));
 
 export const listarActividad = (limite = 50) => db.select().from(schema.actividad).orderBy(desc(schema.actividad.creado)).limit(limite);
+
+export const listarMarcasAdmin = () => db.select().from(schema.marcas).orderBy(asc(schema.marcas.orden), asc(schema.marcas.nombre));
+export const listarCatalogosAdmin = () => db.select().from(schema.catalogos).orderBy(asc(schema.catalogos.orden), desc(schema.catalogos.creado));

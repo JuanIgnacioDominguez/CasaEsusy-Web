@@ -1,4 +1,5 @@
 import {
+  BookOpenIcon,
   BriefcaseIcon,
   FileTextIcon,
   GaugeIcon,
@@ -44,6 +45,7 @@ export const NAVEGACION: { grupo: string; enlaces: EnlacePanel[] }[] = [
       { href: "/admin/inicio", titulo: "Portada", Icono: HomeIcon, roles: ["contenido"] },
       { href: "/admin/servicios", titulo: "Servicios", Icono: LayoutGridIcon, roles: ["contenido"] },
       { href: "/admin/trabajos", titulo: "Trabajos", Icono: BriefcaseIcon, roles: ["contenido"] },
+      { href: "/admin/catalogos", titulo: "Catálogos y marcas", Icono: BookOpenIcon, roles: ["contenido"] },
       { href: "/admin/resenas", titulo: "Reseñas", Icono: StarIcon, roles: ["contenido"] },
       { href: "/admin/preguntas", titulo: "Preguntas", Icono: HelpCircleIcon, roles: ["contenido"] },
       { href: "/admin/medios", titulo: "Imágenes", Icono: ImagesIcon, roles: ["contenido"] },

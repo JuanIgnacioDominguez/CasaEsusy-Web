@@ -40,7 +40,7 @@ export function HeroImagenes({ principal, secundaria, fundacion }: { principal: 
           initial={{ opacity: 0, x: -24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute -bottom-8 -left-3 w-[44%] rounded-[1.4rem] border-[6px] border-background bg-background shadow-2xl sm:-left-10"
+          className="absolute -bottom-8 -left-3 w-[44%] rounded-[1.4rem] border-[6px] border-background bg-background shadow-2xl sm:-left-10 lg:-left-6 xl:-left-10"
         >
           <div className="relative aspect-[4/3] overflow-hidden rounded-[1rem]">
             <Image src={secundaria} alt="Cortinas de gasa colocadas por Casa Esusy" fill sizes="240px" className="object-cover" />

@@ -31,16 +31,16 @@ export function Hero({ inicio, negocio, mensaje }: { inicio: AjustesInicio; nego
             <p className="max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">{inicio.bajada}</p>
           </Aparecer>
           <Aparecer inmediato retraso={0.4} className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg" className="group h-13 rounded-full px-7 text-base">
+            <Button asChild size="lg" className="group h-13 rounded-lg px-7 text-base">
               <Link href="/presupuesto">
                 Pedir presupuesto sin cargo
                 <ArrowRightIcon data-icon="inline-end" className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-13 rounded-full bg-card/60 px-7 text-base backdrop-blur">
+            <Button asChild size="lg" variant="outline" className="h-13 rounded-lg bg-card/60 px-7 text-base backdrop-blur">
               <a href={urlWhatsApp(negocio.whatsapp, mensaje)} target="_blank" rel="noopener">
                 <IconoWhatsApp data-icon="inline-start" className="text-[#1FA855]" />
-                Escribinos por WhatsApp
+                Escribinos
               </a>
             </Button>
           </Aparecer>

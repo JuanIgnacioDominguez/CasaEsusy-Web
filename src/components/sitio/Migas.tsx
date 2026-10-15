@@ -3,8 +3,15 @@ import { ChevronRightIcon } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { schemaMigas } from "@/lib/seo";
 
-/** Migas de pan visibles + BreadcrumbList en JSON-LD. */
-export function Migas({ items }: { items: { nombre: string; ruta: string }[] }) {
+type Miga = { nombre: string; ruta: string };
+
+/** BreadcrumbList en JSON-LD. Va fuera de componentes animados (cliente) para no re-renderizar el <script>. */
+export function SchemaMigas({ items }: { items: Miga[] }) {
+  return <JsonLd data={schemaMigas([{ nombre: "Inicio", ruta: "/" }, ...items])} />;
+}
+
+/** Migas de pan visibles. */
+export function Migas({ items }: { items: Miga[] }) {
   const todas = [{ nombre: "Inicio", ruta: "/" }, ...items];
   return (
     <>
@@ -26,7 +33,6 @@ export function Migas({ items }: { items: { nombre: string; ruta: string }[] }) 
           ))}
         </ol>
       </nav>
-      <JsonLd data={schemaMigas(todas)} />
     </>
   );
 }

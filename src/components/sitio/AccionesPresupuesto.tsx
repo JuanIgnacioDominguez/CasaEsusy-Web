@@ -39,11 +39,11 @@ export function AccionesPresupuesto({
         <>
           <p className="text-center font-medium">¿Avanzamos?</p>
           <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-            <Button size="lg" className="h-12 rounded-full text-base" onClick={() => responder(true)} disabled={pendiente}>
+            <Button size="lg" className="h-12 rounded-lg text-base" onClick={() => responder(true)} disabled={pendiente}>
               {pendiente ? <Spinner data-icon="inline-start" /> : <CheckIcon data-icon="inline-start" />}
               Aceptar presupuesto
             </Button>
-            <Button size="lg" variant="ghost" className="h-12 rounded-full text-muted-foreground" onClick={() => responder(false)} disabled={pendiente}>
+            <Button size="lg" variant="ghost" className="h-12 rounded-lg text-muted-foreground" onClick={() => responder(false)} disabled={pendiente}>
               No, gracias
             </Button>
           </div>
@@ -61,10 +61,10 @@ export function AccionesPresupuesto({
       {estado === "rechazado" && <p className="text-center text-sm text-muted-foreground">Este presupuesto fue rechazado. Si querés ajustar algo, escribinos.</p>}
       {estado === "vencido" && <p className="text-center text-sm text-muted-foreground">Este presupuesto venció. Escribinos y lo actualizamos.</p>}
       <div className="grid gap-2 sm:grid-cols-2">
-        <Button variant="outline" size="lg" className="h-11 rounded-full" onClick={() => window.print()}>
+        <Button variant="outline" size="lg" className="h-11 rounded-lg" onClick={() => window.print()}>
           <DownloadIcon data-icon="inline-start" /> Descargar PDF
         </Button>
-        <Button asChild variant="outline" size="lg" className="h-11 rounded-full">
+        <Button asChild variant="outline" size="lg" className="h-11 rounded-lg">
           <a href={whatsapp} target="_blank" rel="noopener">
             <IconoWhatsApp data-icon="inline-start" /> Consultar
           </a>
