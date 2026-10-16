@@ -53,9 +53,9 @@
   --color-marfil: var(--marfil);
   --color-lino: var(--lino);
   --color-arena: var(--arena);
-  --color-terracota: var(--terracota);
-  --color-terracota-suave: var(--terracota-suave);
-  --color-terracota-foreground: var(--terracota-foreground);
+  --color-acento: var(--acento);
+  --color-acento-suave: var(--acento-suave);
+  --color-acento-foreground: var(--acento-foreground);
   --color-exito: var(--exito);
   --color-exito-suave: var(--exito-suave);
   --color-aviso: var(--aviso);
@@ -98,9 +98,9 @@
   --marfil: #f7f4ef;
   --lino: #efe9e0;
   --arena: #ddd2c2;
-  --terracota: #a65a3f;
-  --terracota-suave: #f4e6dd;
-  --terracota-foreground: #ffffff;
+  --acento: #a65a3f;
+  --acento-suave: #f4e6dd;
+  --acento-foreground: #ffffff;
   --exito: #3f7a55;
   --exito-suave: #e3efe6;
   --aviso: #9a6a12;
@@ -140,17 +140,17 @@
   --sidebar-ring: #a65a3f;
 }
 
-/* En el sitio público el color de acción es la terracota (botones, links, switches).
+/* En el sitio público el color de acción es la acento (botones, links, switches).
    El panel sigue con la pizarra. Se detecta por el <main id="contenido"> del sitio. */
 :root:has(main#contenido) {
-  --primary: var(--terracota);
+  --primary: var(--acento);
   --primary-foreground: #ffffff;
 }
 
 .dark {
-  --terracota: #d4906f;
-  --terracota-suave: #3a2a23;
-  --terracota-foreground: #1b1e22;
+  --acento: #d4906f;
+  --acento-suave: #3a2a23;
+  --acento-foreground: #1b1e22;
   --exito: #7fbf93;
   --exito-suave: #1f2e25;
   --aviso: #e0b45a;
@@ -218,7 +218,7 @@
     cursor: pointer;
   }
   ::selection {
-    background: color-mix(in oklab, var(--terracota) 22%, transparent);
+    background: color-mix(in oklab, var(--acento) 22%, transparent);
   }
 }
 

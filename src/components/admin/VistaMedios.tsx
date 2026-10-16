@@ -48,7 +48,7 @@ export function VistaMedios({ medios, incluidas }: { medios: Medio[]; incluidas:
         }}
         className={cn(
           "flex flex-col items-center gap-3 rounded-2xl border-2 border-dashed bg-card px-6 py-10 text-center transition-colors",
-          arrastrando ? "border-terracota bg-terracota-suave/40" : "hover:bg-muted/50",
+          arrastrando ? "border-acento bg-acento-suave/40" : "hover:bg-muted/50",
         )}
       >
         <span className="grid size-12 place-items-center rounded-xl bg-muted">{subiendo ? <Spinner /> : <UploadCloudIcon className="size-6" />}</span>

@@ -49,7 +49,7 @@ export function VistaTrabajos({
               <Image src={t.imagen} alt={t.titulo} fill sizes="(min-width:1280px) 25vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
               <span className="absolute top-2 left-2 flex gap-1">
                 {t.destacado && (
-                  <Badge className="gap-1 bg-terracota text-white">
+                  <Badge className="gap-1 bg-acento text-white">
                     <StarIcon /> Portada
                   </Badge>
                 )}
@@ -66,7 +66,7 @@ export function VistaTrabajos({
               </span>
             </button>
             <span className="flex flex-col px-0.5">
-              <span className="text-xs text-terracota">{nombre(t.servicio)}</span>
+              <span className="text-xs text-acento">{nombre(t.servicio)}</span>
               <span className="text-sm leading-snug font-medium">{t.titulo}</span>
             </span>
           </div>

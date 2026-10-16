@@ -103,7 +103,7 @@ export function FormularioPresupuesto({
               <li key={p} className="flex flex-col gap-2">
                 <span className="h-1.5 overflow-hidden rounded-full bg-muted">
                   <m.span
-                    className="block h-full rounded-full bg-terracota"
+                    className="block h-full rounded-full bg-acento"
                     initial={false}
                     animate={{ width: i < paso ? "100%" : i === paso ? "50%" : "0%" }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -147,14 +147,14 @@ export function FormularioPresupuesto({
                         aria-pressed={datos.servicio === s.nombre}
                         className={cn(
                           "group relative flex aspect-[4/3.4] items-end overflow-hidden rounded-2xl p-3 text-left ring-offset-2 ring-offset-card focus-visible:ring-3 focus-visible:ring-ring/60 focus-visible:outline-none",
-                          datos.servicio === s.nombre && "ring-3 ring-terracota",
+                          datos.servicio === s.nombre && "ring-3 ring-acento",
                         )}
                       >
                         <Image src={s.imagen} alt="" fill sizes="(min-width:640px) 220px, 45vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                         <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
                         <span className="relative text-[0.95rem] leading-tight font-semibold text-white">{s.nombre}</span>
                         {datos.servicio === s.nombre && (
-                          <span className="absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full bg-terracota text-white">
+                          <span className="absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full bg-acento text-white">
                             <CheckIcon className="size-4" strokeWidth={3} />
                           </span>
                         )}
@@ -178,7 +178,7 @@ export function FormularioPresupuesto({
               {paso === 1 && (
                 <>
                   <div className="flex flex-col gap-2">
-                    <span className="text-sm font-medium text-terracota">{datos.servicio}</span>
+                    <span className="text-sm font-medium text-acento">{datos.servicio}</span>
                     <h2 className="text-2xl font-semibold sm:text-3xl">Contanos un poco más</h2>
                     <p className="text-muted-foreground">Nada es obligatorio: con una idea general ya podemos orientarte.</p>
                   </div>
@@ -368,11 +368,11 @@ export function FormularioPresupuesto({
               <ArrowLeftIcon data-icon="inline-start" /> Atrás
             </Button>
             {paso === 1 ? (
-              <Button size="lg" className="h-12 rounded-lg px-7" onClick={() => ir(2)}>
+              <Button size="lg" className="h-12 rounded-lg px-7 has-data-[icon=inline-end]:pr-7 has-data-[icon=inline-start]:pl-7" onClick={() => ir(2)}>
                 Continuar <ArrowRightIcon data-icon="inline-end" />
               </Button>
             ) : (
-              <Button size="lg" className="h-12 rounded-lg px-7" onClick={enviar} disabled={enviando}>
+              <Button size="lg" className="h-12 rounded-lg px-7 has-data-[icon=inline-end]:pr-7 has-data-[icon=inline-start]:pl-7" onClick={enviar} disabled={enviando}>
                 {enviando ? <Spinner data-icon="inline-start" /> : <IconoWhatsApp data-icon="inline-start" />}
                 {enviando ? "Enviando…" : "Enviar por WhatsApp"}
               </Button>

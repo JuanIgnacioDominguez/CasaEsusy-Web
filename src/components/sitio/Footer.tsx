@@ -62,7 +62,7 @@ export function Footer({ negocio, servicios }: { negocio: Negocio; servicios: { 
         <div className="flex flex-col gap-4">
           <p className="rotulo text-marfil/45">Visitanos</p>
           <a href={negocio.googleMaps} target="_blank" rel="noopener" className="flex gap-3 text-sm hover:text-marfil">
-            <MapPinIcon className="mt-0.5 size-4 shrink-0 text-terracota" />
+            <MapPinIcon className="mt-0.5 size-4 shrink-0 text-acento" />
             <span>
               {negocio.calle}
               <br />
@@ -70,7 +70,7 @@ export function Footer({ negocio, servicios }: { negocio: Negocio; servicios: { 
             </span>
           </a>
           <a href={`tel:+${negocio.whatsapp}`} className="flex gap-3 text-sm hover:text-marfil">
-            <PhoneIcon className="mt-0.5 size-4 shrink-0 text-terracota" />
+            <PhoneIcon className="mt-0.5 size-4 shrink-0 text-acento" />
             {negocio.telefonoVisible}
           </a>
           <dl className="grid gap-1 text-sm">

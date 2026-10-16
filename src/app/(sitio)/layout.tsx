@@ -22,7 +22,13 @@ export default async function SitioLayout({ children }: { children: React.ReactN
         Saltar al contenido
       </a>
       <Navbar
-        servicios={servicios.map(({ slug, nombre, bajada, imagen }) => ({ slug, nombre, bajada, imagen }))}
+        servicios={servicios.map(({ slug, nombre, bajada, imagen, tipos }) => ({
+          slug,
+          nombre,
+          bajada,
+          imagen,
+          resumen: tipos.slice(0, 3).map((t) => t.nombre).join(" · "),
+        }))}
         whatsappHref={urlWhatsApp(negocio.whatsapp, whatsapp.mensaje)}
         instagram={negocio.instagram}
       />

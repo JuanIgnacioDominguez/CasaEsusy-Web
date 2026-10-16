@@ -40,14 +40,14 @@ export default async function Contacto() {
             <div className="flex flex-col gap-3 rounded-[1.5rem] border bg-card p-5">
               <EstadoAbierto horarios={negocio.horarios} className="self-start" />
               <p className="flex items-start gap-3 text-[0.95rem]">
-                <MapPinnedIcon className="mt-0.5 size-5 shrink-0 text-terracota" />
+                <MapPinnedIcon className="mt-0.5 size-5 shrink-0 text-acento" />
                 <span>
                   <span className="font-semibold">{negocio.cobertura}</span>{" "}
                   <span className="text-muted-foreground">Vamos a medir y a colocar sin límite de distancia.</span>
                 </span>
               </p>
               <p className="flex items-start gap-3 text-[0.95rem] text-muted-foreground">
-                <ClockIcon className="mt-0.5 size-5 shrink-0 text-terracota" />
+                <ClockIcon className="mt-0.5 size-5 shrink-0 text-acento" />
                 {negocio.horarios.map((h) => `${h.dias} de ${rangoHorario(h)}`).join(" · ")}
               </p>
             </div>

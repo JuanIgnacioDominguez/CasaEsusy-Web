@@ -3,7 +3,7 @@
  * y crea el primer usuario administrador. Corre solo antes de `dev` y `build`.
  */
 import { mkdirSync } from "node:fs";
-import { count, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { db, DATABASE_URL, schema } from "../src/lib/db";
 import { MARCAS, PRECIOS, PREGUNTAS, PROYECTOS, RESENAS, SEO_INICIAL, SERVICIOS } from "../src/lib/db/semilla";
@@ -67,7 +67,7 @@ async function main() {
  * Actualizaciones de contenido entre versiones del sitio. Se aplican una sola vez
  * (clave `version_contenido`). Pensado para antes del lanzamiento: pisa los textos iniciales.
  */
-const VERSION_CONTENIDO = 3;
+const VERSION_CONTENIDO = 4;
 
 async function actualizarContenido(baseExistente: boolean) {
   const [fila] = await db.select().from(schema.ajustes).where(eq(schema.ajustes.clave, "version_contenido"));
@@ -109,6 +109,17 @@ async function actualizarContenido(baseExistente: boolean) {
       }
     }
     console.log("✓ Logos de marcas cargados");
+  }
+
+  if (baseExistente && actual < 4) {
+    // v4: marcas nuevas (Muresco, Wepel, Barrales y Accesorios) y logotipo horizontal de Riel Americano.
+    // No toca marcas ni logos cargados a mano desde el panel.
+    await db.insert(schema.marcas).values(MARCAS).onConflictDoNothing({ target: schema.marcas.nombre });
+    await db
+      .update(schema.marcas)
+      .set({ logo: "/marcas/riel-americano-logotipo.png" })
+      .where(and(eq(schema.marcas.nombre, "Riel Americano"), eq(schema.marcas.logo, "/marcas/riel-americano.png")));
+    console.log("✓ Marcas nuevas agregadas");
   }
 
   await db

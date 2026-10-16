@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { Fragment, useState, useTransition } from "react";
 import Image from "next/image";
 import { ExternalLinkIcon, SaveIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
       <Card>
         <CardHeader>
           <CardTitle>Portada</CardTitle>
-          <CardDescription>El primer bloque que ve cada visita. La palabra grande cambia sola con la foto de cada servicio (Cortinas, Sillones, Alfombras…).</CardDescription>
+          <CardDescription>El primer bloque que ve cada visita. El título queda fijo y atrás rotan fotos de ambientes.</CardDescription>
         </CardHeader>
         <CardContent>
           <FieldGroup>
@@ -32,9 +32,9 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
               <Input id="p-rotulo" value={d.rotulo} onChange={(e) => set("rotulo", e.target.value)} />
             </Field>
             <Field>
-              <FieldLabel htmlFor="p-titulo">Frase</FieldLabel>
+              <FieldLabel htmlFor="p-titulo">Título</FieldLabel>
               <Input id="p-titulo" value={d.titulo} onChange={(e) => set("titulo", e.target.value)} className="text-lg font-semibold" />
-              <FieldDescription>Acompaña a la palabra que va cambiando: “Cortinas {d.titulo}”. Ideal: menos de 30 caracteres.</FieldDescription>
+              <FieldDescription>Qué hacen, dicho simple. Lo que pongas entre *asteriscos* sale resaltado. Ideal: menos de 50 caracteres.</FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="p-bajada">Bajada</FieldLabel>
@@ -43,7 +43,7 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
             <Field>
               <FieldLabel>Primera foto</FieldLabel>
               <SelectorImagen valor={d.imagen} onCambio={(u) => set("imagen", u)} incluidas={incluidas} subidas={subidas} aspecto="aspect-[16/7]" />
-              <FieldDescription>Después rotan las fotos de cada servicio (se cambian en Servicios).</FieldDescription>
+              <FieldDescription>Conviene una foto horizontal y luminosa. Después rotan otras fotos de ambientes.</FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="p-nos">Texto de “Nosotros”</FieldLabel>
@@ -77,10 +77,17 @@ export function EditorPortada({ inicial, incluidas, subidas }: { inicial: Ajuste
         <div className="relative isolate flex aspect-[4/3] flex-col justify-end gap-3 p-6 text-white sm:aspect-[16/11]">
           {d.imagen && <Image src={d.imagen} alt="" fill sizes="600px" className="-z-20 object-cover" />}
           <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-          <span className="rotulo self-start rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[0.6rem] text-white/90">{d.rotulo}</span>
-          <p className="text-4xl leading-[0.95] font-semibold tracking-tight">
-            <span className="block text-[#F0B79B]">Cortinas</span>
-            {d.titulo}
+          <span className="text-xs font-medium text-white/75">{d.rotulo}</span>
+          <p className="text-4xl leading-[1.02] font-semibold tracking-tight">
+            {d.titulo.split("*").map((parte, i) =>
+              i % 2 === 1 ? (
+                <span key={i} className="text-[#F0B79B]">
+                  {parte}
+                </span>
+              ) : (
+                <Fragment key={i}>{parte}</Fragment>
+              ),
+            )}
           </p>
           <p className="max-w-sm text-sm leading-relaxed text-white/80">{d.bajada}</p>
           <span className="self-start rounded-lg bg-[#a65a3f] px-4 py-2 text-xs font-medium text-white">Pedir presupuesto sin cargo</span>

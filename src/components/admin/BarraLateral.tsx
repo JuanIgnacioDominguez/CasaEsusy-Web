@@ -83,7 +83,7 @@ export function BarraLateral({ usuario, nuevas }: { usuario: UsuarioSesion; nuev
                         </Link>
                       </SidebarMenuButton>
                       {clave === "consultas" && nuevas > 0 && (
-                        <SidebarMenuBadge className="bg-terracota text-white peer-data-active/menu-button:text-white">{nuevas}</SidebarMenuBadge>
+                        <SidebarMenuBadge className="bg-acento text-white peer-data-active/menu-button:text-white">{nuevas}</SidebarMenuBadge>
                       )}
                     </SidebarMenuItem>
                   ))}

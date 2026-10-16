@@ -69,7 +69,7 @@ export function GaleriaTrabajos({ trabajos, servicios }: { trabajos: TrabajoGale
                   <Image src={t.imagen} alt={t.titulo} fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 </span>
                 <span className="flex flex-col gap-0.5 px-1">
-                  <span className="text-xs font-medium text-terracota">{nombre(t.servicio)}</span>
+                  <span className="text-xs font-medium text-acento">{nombre(t.servicio)}</span>
                   <span className="text-[0.95rem] leading-snug font-semibold">{t.titulo}</span>
                 </span>
               </button>
@@ -86,7 +86,7 @@ export function GaleriaTrabajos({ trabajos, servicios }: { trabajos: TrabajoGale
                 <Image src={actual.imagen} alt={actual.titulo} fill sizes="(min-width:768px) 50vw, 100vw" className="object-contain" />
               </div>
               <div className="flex flex-col gap-4 p-6 sm:p-8">
-                <span className="text-sm font-medium text-terracota">{nombre(actual.servicio)}</span>
+                <span className="text-sm font-medium text-acento">{nombre(actual.servicio)}</span>
                 <DialogTitle className="text-2xl leading-tight font-semibold">{actual.titulo}</DialogTitle>
                 <DialogDescription className="text-base leading-relaxed">{actual.descripcion}</DialogDescription>
                 {actual.ubicacion && <p className="text-sm text-muted-foreground">{actual.ubicacion}</p>}

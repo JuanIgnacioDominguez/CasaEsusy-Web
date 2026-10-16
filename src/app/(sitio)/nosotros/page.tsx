@@ -34,7 +34,7 @@ export default async function Nosotros() {
           <SchemaMigas items={[{ nombre: "Nosotros", ruta: "/nosotros" }]} />
           <Aparecer inmediato className="flex flex-col gap-6">
             <Migas items={[{ nombre: "Nosotros", ruta: "/nosotros" }]} />
-            <span className="rotulo text-terracota">
+            <span className="rotulo text-acento">
               <span className="h-px w-6 bg-current" aria-hidden />
               Desde {negocio.fundacion}
             </span>
@@ -59,8 +59,8 @@ export default async function Nosotros() {
           <Encabezado rotulo="Nuestra historia" titulo="Algunos momentos" />
           <Escalonado className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {hitos.map((h) => (
-              <AparecerItem key={h.titulo} className="flex flex-col gap-3 border-t-2 border-terracota/70 pt-6">
-                <span className="text-2xl font-semibold tracking-tight text-terracota">{h.anio}</span>
+              <AparecerItem key={h.titulo} className="flex flex-col gap-3 border-t-2 border-acento/70 pt-6">
+                <span className="text-2xl font-semibold tracking-tight text-acento">{h.anio}</span>
                 <h3 className="text-lg font-semibold">{h.titulo}</h3>
                 <p className="leading-relaxed text-muted-foreground">{h.texto}</p>
               </AparecerItem>
@@ -84,7 +84,7 @@ export default async function Nosotros() {
           <Escalonado className="flex flex-col gap-4">
             {VALORES.map(({ Icono, titulo, texto }) => (
               <AparecerItem key={titulo} className="flex gap-5 rounded-[1.5rem] border bg-card p-6">
-                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-terracota-suave text-terracota">
+                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-acento-suave text-acento">
                   <Icono className="size-6" strokeWidth={1.7} />
                 </span>
                 <span className="flex flex-col gap-1">

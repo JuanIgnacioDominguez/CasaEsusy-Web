@@ -8,7 +8,7 @@ interface MetaEstado {
 }
 
 export const ESTADO_CONSULTA: Record<EstadoConsulta, MetaEstado> = {
-  nueva: { etiqueta: "Nueva", clase: "bg-terracota-suave text-terracota", punto: "bg-terracota" },
+  nueva: { etiqueta: "Nueva", clase: "bg-acento-suave text-acento", punto: "bg-acento" },
   contactada: { etiqueta: "Contactada", clase: "bg-aviso-suave text-aviso", punto: "bg-aviso" },
   presupuestada: { etiqueta: "Presupuestada", clase: "bg-secondary text-secondary-foreground", punto: "bg-chart-5" },
   ganada: { etiqueta: "Ganada", clase: "bg-exito-suave text-exito", punto: "bg-exito" },

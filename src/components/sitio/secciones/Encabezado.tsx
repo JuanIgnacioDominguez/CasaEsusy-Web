@@ -27,7 +27,7 @@ export function Encabezado({
       )}
     >
       {rotulo && (
-        <span className={cn("rotulo", claro ? "text-marfil/60" : "text-terracota")}>
+        <span className={cn("rotulo", claro ? "text-marfil/60" : "text-acento")}>
           <span className="h-px w-6 bg-current" aria-hidden />
           {rotulo}
         </span>

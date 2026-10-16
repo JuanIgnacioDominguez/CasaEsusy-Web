@@ -109,7 +109,7 @@ export function VistaCatalogos({
                         <Icono /> {c.tipo === "pdf" ? "PDF" : c.tipo === "imagenes" ? `${c.imagenes.length} fotos` : "Link"}
                       </Badge>
                       {c.destacado && (
-                        <Badge className="bg-terracota text-white">
+                        <Badge className="bg-acento text-white">
                           <StarIcon />
                         </Badge>
                       )}
@@ -121,7 +121,7 @@ export function VistaCatalogos({
                     </span>
                   </span>
                   <span className="flex flex-col px-0.5">
-                    <span className="text-xs text-terracota">
+                    <span className="text-xs text-acento">
                       {c.categoria}
                       {nombreMarca(c.marcaId) ? ` · ${nombreMarca(c.marcaId)}` : ""}
                     </span>
@@ -141,7 +141,7 @@ export function VistaCatalogos({
               <CardContent className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 flex-col gap-1">
                   {m.logo ? <Image src={m.logo} alt={m.nombre} width={140} height={40} className="h-8 w-auto object-contain" /> : <span className="text-xl font-bold tracking-tight">{m.nombre}</span>}
-                  <span className="text-xs text-terracota">{m.rubro}</span>
+                  <span className="text-xs text-acento">{m.rubro}</span>
                   <span className="text-sm text-muted-foreground">{m.descripcion}</span>
                   <span className="text-xs text-muted-foreground">{catalogos.filter((c) => c.marcaId === m.id).length} catálogos</span>
                 </div>

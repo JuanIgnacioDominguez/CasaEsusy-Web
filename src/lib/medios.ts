@@ -31,6 +31,9 @@ export const IMAGENES_INCLUIDAS = [
   "/img/instagram/frente-local.jpg",
   "/img/instagram/pieza-desde-1967.jpg",
   "/marcas/flexcolor.png",
-  "/marcas/riel-americano.png",
+  "/marcas/riel-americano-logotipo.png",
   "/marcas/el-espartano.png",
+  "/marcas/muresco.png",
+  "/marcas/wepel.png",
+  "/marcas/barrales-y-accesorios.png",
 ];

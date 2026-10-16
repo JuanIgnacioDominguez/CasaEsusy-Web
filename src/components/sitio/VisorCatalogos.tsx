@@ -24,7 +24,7 @@ const ETIQUETA_TIPO = { pdf: "PDF", imagenes: "Fotos", enlace: "Online" } as con
 
 /** Portada generada cuando el catálogo no tiene imagen: nombre de la marca sobre un fondo de la paleta. */
 function PortadaGenerada({ c }: { c: CatalogoVista }) {
-  const tonos = ["from-pizarra to-pizarra-profundo", "from-terracota to-[#7d3f2a]", "from-[#8c9a83] to-[#5f6c58]", "from-[#c8b496] to-[#9c8566]"];
+  const tonos = ["from-pizarra to-pizarra-profundo", "from-acento to-[#7d3f2a]", "from-[#8c9a83] to-[#5f6c58]", "from-[#c8b496] to-[#9c8566]"];
   const tono = tonos[(c.titulo.length + (c.marca?.length ?? 0)) % tonos.length];
   return (
     <span className={cn("absolute inset-0 flex flex-col justify-between bg-gradient-to-br p-6 text-white", tono)}>
@@ -110,7 +110,7 @@ export function VisorCatalogos({
                       </span>
                     </span>
                     <span className="flex flex-1 flex-col gap-1 px-5 pt-2 pb-5">
-                      <span className="text-xs font-medium text-terracota">
+                      <span className="text-xs font-medium text-acento">
                         {c.categoria}
                         {c.marca ? ` · ${c.marca}` : ""}
                       </span>

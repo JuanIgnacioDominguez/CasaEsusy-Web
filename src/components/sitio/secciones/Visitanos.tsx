@@ -18,6 +18,18 @@ export function Visitanos({ negocio }: { negocio: Negocio }) {
         />
         <div className="grid gap-4 lg:grid-cols-[1fr_24rem]">
           <Aparecer className="relative min-h-[22rem] overflow-hidden rounded-[1.75rem] border bg-muted">
+            {/* Queda debajo del mapa: se ve solo si el mapa no carga (bloqueadores, sin conexión). */}
+            <a
+              href={negocio.googleMaps}
+              target="_blank"
+              rel="noopener"
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center text-muted-foreground"
+            >
+              <span className="grid size-12 place-items-center rounded-full bg-card text-acento shadow-sm">
+                <MapPinIcon className="size-6" />
+              </span>
+              <span className="text-sm font-medium">Ver el local en Google Maps</span>
+            </a>
             <iframe
               title={`Mapa: ${negocio.nombre}, ${negocio.calle}, ${negocio.localidad}`}
               src={mapa}
@@ -29,7 +41,7 @@ export function Visitanos({ negocio }: { negocio: Negocio }) {
           <Aparecer retraso={0.1} className="flex flex-col gap-6 rounded-[1.75rem] border bg-card p-7">
             <EstadoAbierto horarios={negocio.horarios} className="self-start" />
             <div className="flex gap-3">
-              <MapPinIcon className="mt-1 size-5 shrink-0 text-terracota" />
+              <MapPinIcon className="mt-1 size-5 shrink-0 text-acento" />
               <address className="not-italic">
                 <span className="block text-lg font-semibold">{negocio.calle}</span>
                 <span className="text-muted-foreground">
@@ -53,12 +65,12 @@ export function Visitanos({ negocio }: { negocio: Negocio }) {
               <AccessibilityIcon className="size-4" /> Local accesible en silla de ruedas
             </p>
             <div className="mt-auto grid grid-cols-2 gap-2">
-              <Button asChild size="lg" className="h-12 rounded-lg">
+              <Button asChild size="lg" className="h-12 rounded-lg px-4 has-data-[icon=inline-start]:pl-4">
                 <a href={negocio.googleMaps} target="_blank" rel="noopener">
                   <NavigationIcon data-icon="inline-start" /> Cómo llegar
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 rounded-lg">
+              <Button asChild size="lg" variant="outline" className="h-12 rounded-lg px-4 has-data-[icon=inline-start]:pl-4">
                 <a href={`tel:+${negocio.whatsapp}`}>
                   <PhoneIcon data-icon="inline-start" /> Llamar
                 </a>

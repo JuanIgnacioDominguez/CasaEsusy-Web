@@ -10,7 +10,7 @@ export default function NoEncontrada() {
         <Link href="/" aria-label="Inicio">
           <Logo className="h-12" />
         </Link>
-        <p className="text-8xl font-semibold tracking-tight text-terracota/80">404</p>
+        <p className="text-8xl font-semibold tracking-tight text-acento/80">404</p>
         <h1 className="text-3xl font-semibold">Esta página no existe</h1>
         <p className="text-lg text-muted-foreground">Puede que el enlace haya cambiado. Te dejamos algunos caminos:</p>
         <div className="flex flex-wrap justify-center gap-2">

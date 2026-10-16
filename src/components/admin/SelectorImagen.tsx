@@ -58,11 +58,11 @@ export function SelectorImagen({
             onCambio(u);
             setAbierto(false);
           }}
-          className={cn("relative aspect-square overflow-hidden rounded-lg bg-muted ring-offset-2 ring-offset-background focus-visible:ring-2 focus-visible:ring-ring", valor === u && "ring-2 ring-terracota")}
+          className={cn("relative aspect-square overflow-hidden rounded-lg bg-muted ring-offset-2 ring-offset-background focus-visible:ring-2 focus-visible:ring-ring", valor === u && "ring-2 ring-acento")}
         >
           <Image src={u} alt="" fill sizes="160px" className="object-cover" />
           {valor === u && (
-            <span className="absolute top-1.5 right-1.5 grid size-6 place-items-center rounded-full bg-terracota text-white">
+            <span className="absolute top-1.5 right-1.5 grid size-6 place-items-center rounded-full bg-acento text-white">
               <CheckIcon className="size-3.5" />
             </span>
           )}

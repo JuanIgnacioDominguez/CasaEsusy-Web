@@ -58,14 +58,14 @@ export default async function Catalogos() {
             </Suspense>
           ) : (
             <Aparecer className="flex flex-col items-center gap-5 rounded-[2rem] border border-dashed bg-card px-6 py-16 text-center">
-              <span className="grid size-14 place-items-center rounded-2xl bg-terracota-suave text-terracota">
+              <span className="grid size-14 place-items-center rounded-2xl bg-acento-suave text-acento">
                 <BookOpenIcon className="size-7" />
               </span>
               <div className="flex max-w-md flex-col gap-2">
                 <h2 className="text-2xl font-semibold">Estamos subiendo los catálogos</h2>
                 <p className="text-muted-foreground">Mientras tanto, pedinos el que necesites y te lo mandamos por WhatsApp en el momento.</p>
               </div>
-              <Button asChild size="lg" className="h-12 rounded-lg bg-whatsapp px-6 text-white hover:bg-[#1FB855]">
+              <Button asChild size="lg" className="h-12 rounded-lg bg-whatsapp px-6 text-white hover:bg-[#1FB855] has-data-[icon=inline-end]:pr-6 has-data-[icon=inline-start]:pl-6">
                 <a href={pedido} target="_blank" rel="noopener">
                   <IconoWhatsApp data-icon="inline-start" /> Pedir un catálogo
                 </a>
@@ -92,7 +92,7 @@ export default async function Catalogos() {
                       )}
                     </div>
                     <div className="flex flex-col gap-1">
-                      {m.rubro && <span className="text-xs font-medium text-terracota">{m.rubro}</span>}
+                      {m.rubro && <span className="text-xs font-medium text-acento">{m.rubro}</span>}
                       {m.descripcion && <p className="text-[0.95rem] leading-relaxed text-muted-foreground">{m.descripcion}</p>}
                     </div>
                     <div className="mt-auto flex flex-wrap gap-2 pt-2">

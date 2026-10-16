@@ -52,7 +52,7 @@ export default async function PresupuestoPublico({ params }: { params: Promise<{
               </div>
             </div>
             <div className="flex flex-col gap-1 sm:text-right">
-              <span className="rotulo text-terracota">Presupuesto</span>
+              <span className="rotulo text-acento">Presupuesto</span>
               <span className="text-2xl font-semibold tabular-nums">{p.numero}</span>
               <span className="text-sm text-muted-foreground">Emitido el {fechaLarga(p.creado)}</span>
               <span className={cn("flex items-center gap-1.5 text-sm sm:justify-end", vencido ? "text-destructive" : "text-muted-foreground")}>

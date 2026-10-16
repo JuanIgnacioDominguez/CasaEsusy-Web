@@ -65,7 +65,7 @@ export default async function PaginaServicio({ params }: Props) {
               <Migas items={[{ nombre: servicio.nombre, ruta: `/${servicio.slug}` }]} />
             </Aparecer>
             <Aparecer inmediato retraso={0.05} className="flex flex-col gap-5">
-              <span className="rotulo text-terracota">
+              <span className="rotulo text-acento">
                 <span className="h-px w-6 bg-current" aria-hidden />
                 {servicio.nombre}
               </span>
@@ -75,12 +75,12 @@ export default async function PaginaServicio({ params }: Props) {
               <p className="max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">{servicio.bajada}</p>
             </Aparecer>
             <Aparecer inmediato retraso={0.15} className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg" className="h-13 rounded-lg px-7 text-base">
+              <Button asChild size="lg" className="h-13 rounded-lg px-7 text-base has-data-[icon=inline-end]:pr-7 has-data-[icon=inline-start]:pl-7">
                 <Link href={`/presupuesto?servicio=${servicio.slug}`}>
                   Pedir presupuesto <ArrowRightIcon data-icon="inline-end" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-13 rounded-lg bg-card/60 px-7 text-base">
+              <Button asChild size="lg" variant="outline" className="h-13 rounded-lg bg-card/60 px-7 text-base has-data-[icon=inline-end]:pr-7 has-data-[icon=inline-start]:pl-7">
                 <a href={urlWhatsApp(negocio.whatsapp, mensaje)} target="_blank" rel="noopener">
                   <IconoWhatsApp data-icon="inline-start" className="text-[#1FA855]" /> Consultar por WhatsApp
                 </a>
@@ -99,8 +99,8 @@ export default async function PaginaServicio({ params }: Props) {
             <Encabezado rotulo="Opciones" titulo={`Qué hacemos en ${servicio.nombre.toLowerCase()}`} />
             <Escalonado className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {servicio.tipos.map((t, i) => (
-                <AparecerItem key={t.nombre} className="flex flex-col gap-3 rounded-[1.5rem] border bg-background p-7 transition-colors hover:border-terracota/40">
-                  <span className="text-sm font-semibold text-terracota tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                <AparecerItem key={t.nombre} className="flex flex-col gap-3 rounded-[1.5rem] border bg-background p-7 transition-colors hover:border-acento/40">
+                  <span className="text-sm font-semibold text-acento tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="text-xl font-semibold">{t.nombre}</h3>
                   <p className="leading-relaxed text-muted-foreground">{t.descripcion}</p>
                 </AparecerItem>
@@ -141,7 +141,7 @@ export default async function PaginaServicio({ params }: Props) {
           <div className="contenedor flex flex-col gap-10">
             <div className="flex items-end justify-between gap-6">
               <Encabezado rotulo="Trabajos reales" titulo="Algunos trabajos recientes" />
-              <Button asChild variant="link" className="hidden h-auto px-0 text-base text-foreground sm:inline-flex">
+              <Button asChild variant="link" className="hidden h-auto px-0 text-base text-foreground sm:inline-flex has-data-[icon=inline-end]:pr-0 has-data-[icon=inline-start]:pl-0">
                 <Link href="/proyectos">
                   Ver todos <ArrowRightIcon data-icon="inline-end" />
                 </Link>

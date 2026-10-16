@@ -117,11 +117,11 @@ export const inicioSchema = z.object({
 export type AjustesInicio = z.infer<typeof inicioSchema>;
 
 export const INICIO_DEFECTO: AjustesInicio = {
-  rotulo: "Casa Esusy · Banfield · Desde 1967",
-  titulo: "a medida, para tu casa.",
+  rotulo: "Decoración integral en Banfield, desde 1967",
+  titulo: "Cortinas, tapizados y decoración *a medida*",
   bajada:
-    "Cada pieza hecha para tu casa, y diseño de interiores para que todo combine. Medimos sin cargo en Capital, zona sur o donde nos necesites.",
-  imagen: "/img/ambientes/living-sillon-gasas.jpg",
+    "Vamos a tu casa con muestras, medimos sin cargo y colocamos con equipo propio. En Capital, zona sur y donde nos necesites.",
+  imagen: "/img/ambientes/living-claro.jpg",
   imagenSecundaria: "/img/instagram/gasas-ventanal.jpg",
   textoNosotros:
     "Somos una casa de decoración familiar. Empezamos en 1967 eligiendo telas para las casas del barrio y hoy, tres generaciones después, seguimos igual: escuchamos, medimos con cuidado y entregamos trabajos prolijos, desde una cortina hasta un ambiente completo.",

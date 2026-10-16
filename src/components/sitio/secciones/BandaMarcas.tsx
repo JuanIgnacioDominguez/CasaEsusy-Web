@@ -34,7 +34,7 @@ export function BandaMarcas({ marcas, catalogos }: { marcas: Marca[]; catalogos:
     <section aria-labelledby="marcas-titulo" className="border-y bg-lino/60 py-14 lg:py-16">
       <div className="contenedor mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
         <Aparecer className="flex flex-col gap-2">
-          <span className="rotulo text-terracota">
+          <span className="rotulo text-acento">
             <span className="h-px w-6 bg-current" aria-hidden />
             Marcas con las que trabajamos
           </span>
@@ -42,7 +42,7 @@ export function BandaMarcas({ marcas, catalogos }: { marcas: Marca[]; catalogos:
             Primeras marcas, con sus catálogos online
           </h2>
         </Aparecer>
-        <Button asChild variant="outline" className="h-11 rounded-lg bg-card px-5">
+        <Button asChild variant="outline" className="h-11 rounded-lg bg-card px-5 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5">
           <Link href="/catalogos">
             {catalogos > 0 ? `Ver ${catalogos} ${catalogos === 1 ? "catálogo" : "catálogos"}` : "Ver catálogos"} <ArrowRightIcon data-icon="inline-end" />
           </Link>

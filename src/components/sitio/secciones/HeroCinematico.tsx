@@ -1,33 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, StarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Estrellas, IconoGoogle, IconoWhatsApp } from "@/components/iconos";
+import { IconoWhatsApp } from "@/components/iconos";
+import { Contador } from "@/components/motion/Contador";
 import { cn } from "@/lib/utils";
 
-export interface DiapositivaHero {
-  palabra: string;
-  etiqueta: string;
-  imagen: string;
-  href: string;
+const EASE = [0.22, 1, 0.36, 1] as const;
+const INTERVALO_MS = 7000;
+
+/** "Cortinas y tapizados *a medida*" → la parte entre asteriscos va resaltada. */
+function Resaltado({ texto }: { texto: string }) {
+  return texto.split("*").map((parte, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className="text-[#F0B79B]">
+        {parte}
+      </span>
+    ) : (
+      <Fragment key={i}>{parte}</Fragment>
+    ),
+  );
 }
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+interface Cifra {
+  valor: React.ReactNode;
+  etiqueta: string;
+  href?: string;
+}
 
 /**
- * Portada inmersiva: fotos que se suceden con un zoom lento, la palabra grande cambia con cada una
- * y abajo hay indicadores tipo historias (se pausan al pasar el mouse y se pueden tocar).
+ * Portada a todo el ancho: el mensaje queda fijo (qué hacemos, dónde y cómo pedir presupuesto),
+ * atrás se suceden fotos de ambientes con un fundido lento y al pie van las cifras que dan confianza,
+ * que cuentan solas al cargar.
  */
 export function HeroCinematico({
   rotulo,
-  frase,
+  titulo,
   bajada,
-  diapositivas,
+  imagenes,
   whatsappHref,
   puntaje,
   opiniones,
@@ -35,9 +50,9 @@ export function HeroCinematico({
   anios,
 }: {
   rotulo: string;
-  frase: string;
+  titulo: string;
   bajada: string;
-  diapositivas: DiapositivaHero[];
+  imagenes: string[];
   whatsappHref: string;
   puntaje: number;
   opiniones: number;
@@ -45,19 +60,38 @@ export function HeroCinematico({
   anios: number;
 }) {
   const [indice, setIndice] = useState(0);
-  const [pausa, setPausa] = useState(false);
   const reducir = useReducedMotion();
-  const actual = diapositivas[indice] ?? diapositivas[0];
-  const siguiente = () => setIndice((i) => (i + 1) % diapositivas.length);
+  const total = imagenes.length;
+
+  useEffect(() => {
+    if (reducir || total < 2) return;
+    const t = setTimeout(() => setIndice((i) => (i + 1) % total), INTERVALO_MS);
+    return () => clearTimeout(t);
+  }, [indice, reducir, total]);
+
+  const actual = imagenes[indice] ?? imagenes[0];
   if (!actual) return null;
+  const siguiente = imagenes[(indice + 1) % total];
+
+  const cifras: Cifra[] = [
+    { valor: <Contador valor={anios} />, etiqueta: "años de oficio" },
+    {
+      valor: (
+        <span className="inline-flex items-center gap-2">
+          <Contador valor={puntaje} decimales={1} />
+          <StarIcon className="size-[0.6em] fill-[#E3A33B] text-[#E3A33B]" aria-hidden />
+        </span>
+      ),
+      etiqueta: `${opiniones} opiniones en Google`,
+      href: resenasHref,
+    },
+    { valor: <Contador valor={3} />, etiqueta: "generaciones de la familia" },
+    { valor: "Sin cargo", etiqueta: "medición y presupuesto" },
+  ];
 
   return (
-    <div
-      className="relative isolate h-[86svh] max-h-[56rem] min-h-[36rem] overflow-hidden rounded-[1.75rem] bg-pizarra-profundo text-white sm:rounded-[2.25rem]"
-      onMouseEnter={() => setPausa(true)}
-      onMouseLeave={() => setPausa(false)}
-    >
-      {/* Fondos que se suceden con fundido y zoom lento. La primera viene visible desde el servidor (mejor LCP). */}
+    <div className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-pizarra-profundo text-white lg:min-h-[min(100svh,60rem)]">
+      {/* Fondos con fundido y zoom lento. La primera viene renderizada desde el servidor (mejor LCP). */}
       <AnimatePresence initial={false}>
         <m.div
           key={indice}
@@ -65,62 +99,59 @@ export function HeroCinematico({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: EASE }}
+          transition={{ duration: 1.6, ease: EASE }}
         >
-          <m.div className="absolute inset-0" initial={{ scale: 1.14 }} animate={{ scale: 1.02 }} transition={{ duration: 8, ease: "linear" }}>
-            <Image src={actual.imagen} alt="" fill priority={indice === 0} sizes="100vw" className="object-cover" />
+          <m.div
+            className="absolute inset-0"
+            initial={reducir ? false : { scale: 1.06 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: INTERVALO_MS / 1000 + 1.6, ease: "linear" }}
+          >
+            <Image src={actual} alt="" fill preload={indice === 0} sizes="100vw" quality={85} className="object-cover" />
           </m.div>
         </m.div>
       </AnimatePresence>
-      {/* Precarga la siguiente para que el cambio sea instantáneo */}
-      <div className="hidden" aria-hidden>
-        <Image src={diapositivas[(indice + 1) % diapositivas.length]!.imagen} alt="" width={16} height={16} sizes="100vw" />
-      </div>
-      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/25" />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/15 to-transparent" />
+      {siguiente && siguiente !== actual && (
+        <div className="hidden" aria-hidden>
+          <Image src={siguiente} alt="" width={16} height={16} sizes="100vw" quality={85} />
+        </div>
+      )}
+      {/* Velos en el tono pizarra de la marca: las fotos son claras y el texto blanco necesita apoyo. */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-pizarra-profundo/15 lg:bg-transparent" />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 hidden bg-gradient-to-r from-pizarra-profundo/85 from-10% via-pizarra-profundo/45 via-45% to-transparent to-75% lg:block"
+      />
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b from-pizarra-profundo/60 to-transparent" />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 -z-10 h-3/4 bg-gradient-to-t from-pizarra-profundo/95 via-pizarra-profundo/60 to-transparent lg:h-1/2 lg:from-pizarra-profundo/85 lg:via-pizarra-profundo/35"
+      />
 
-      <div className="contenedor flex h-full flex-col justify-end gap-5 pb-24 sm:gap-6 sm:pb-28">
-        <m.span
+      <div className="contenedor flex flex-1 flex-col justify-end gap-6 pt-28 pb-10 lg:justify-center lg:pt-32 lg:pb-14">
+        <m.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="rotulo self-start rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-white/90 backdrop-blur-md"
+          className="text-[0.95rem] font-medium text-white/80 sm:text-base"
         >
-          <span className="size-1.5 rounded-full bg-[#F0B79B]" aria-hidden />
           {rotulo}
-        </m.span>
+        </m.p>
 
-        <h1 className="max-w-5xl text-[clamp(2.75rem,min(10vw,8.5svh),6.25rem)] leading-[0.95] font-semibold tracking-[-0.045em] [text-shadow:0_2px_30px_rgb(0_0_0/0.35)] sm:text-[clamp(3.5rem,min(7.6vw,10.5svh),6.25rem)]">
-          <span className="sr-only">{diapositivas.map((d) => d.palabra).join(", ")} </span>
-          <span aria-hidden className="relative block h-[1.02em] overflow-hidden">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <m.span
-                key={actual.palabra}
-                className="block text-[#F0B79B]"
-                initial={{ y: "105%", opacity: 0, filter: "blur(8px)" }}
-                animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-                exit={{ y: "-105%", opacity: 0, filter: "blur(8px)" }}
-                transition={{ duration: 0.75, ease: EASE }}
-              >
-                {actual.palabra}
-              </m.span>
-            </AnimatePresence>
-          </span>
-          <m.span
-            className="block text-white"
-            initial={{ opacity: 0, y: 16, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-          >
-            {frase}
-          </m.span>
-        </h1>
+        <m.h1
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+          className="-mt-2 max-w-[15ch] text-[clamp(2.4rem,9vw,5.4rem)] leading-[1.02] font-semibold tracking-[-0.04em] [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
+        >
+          <Resaltado texto={titulo} />
+        </m.h1>
 
         <m.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
-          className="max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
+          transition={{ duration: 0.7, delay: 0.25, ease: EASE }}
+          className="max-w-xl text-[1.0625rem] leading-relaxed text-white/90 sm:text-xl"
         >
           {bajada}
         </m.p>
@@ -128,82 +159,67 @@ export function HeroCinematico({
         <m.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4, ease: EASE }}
-          className="flex flex-col gap-3 sm:flex-row"
+          transition={{ duration: 0.7, delay: 0.35, ease: EASE }}
+          className="flex flex-col gap-3 pt-1 sm:flex-row"
         >
-          <Button asChild size="lg" className="group h-13 rounded-lg px-7 text-base shadow-[0_12px_32px_-12px_rgb(166_90_63/0.8)]">
+          <Button asChild size="lg" className="group h-13 rounded-lg px-7 text-base shadow-[0_12px_32px_-12px_rgb(0_0_0/0.6)] has-data-[icon=inline-end]:pr-7">
             <Link href="/presupuesto">
               Pedir presupuesto sin cargo
               <ArrowRightIcon data-icon="inline-end" className="transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
-          <Button asChild size="lg" variant="outline" className="h-13 rounded-lg border-white/30 bg-white/10 px-7 text-base text-white backdrop-blur-md hover:bg-white/20 hover:text-white">
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="h-13 rounded-lg border-white/35 bg-white/10 px-7 text-base text-white backdrop-blur-md hover:bg-white/20 hover:text-white has-data-[icon=inline-start]:pl-7"
+          >
             <a href={whatsappHref} target="_blank" rel="noopener">
-              <IconoWhatsApp data-icon="inline-start" /> Escribinos
+              <IconoWhatsApp data-icon="inline-start" /> Escribinos por WhatsApp
             </a>
           </Button>
         </m.div>
       </div>
 
-      {/* Tarjeta de confianza (escritorio) */}
-      <m.a
-        href={resenasHref}
-        target="_blank"
-        rel="noopener"
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 0.6, ease: EASE }}
-        className="absolute right-8 bottom-28 hidden w-72 flex-col gap-4 rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-xl transition-colors hover:bg-white/15 lg:flex"
-      >
-        <span className="flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-full bg-white">
-            <IconoGoogle className="size-5" />
-          </span>
-          <span className="flex flex-col">
-            <span className="flex items-center gap-2 text-lg font-semibold">
-              {puntaje.toLocaleString("es-AR")} <Estrellas puntaje={puntaje} className="text-sm text-white" />
-            </span>
-            <span className="text-xs text-white/70">{opiniones} opiniones en Google</span>
-          </span>
-        </span>
-        <span className="h-px bg-white/15" />
-        <span className="flex items-baseline gap-2">
-          <span className="text-3xl font-semibold tracking-tight tabular-nums">{anios}</span>
-          <span className="text-sm text-white/75">años de oficio · 3 generaciones</span>
-        </span>
-      </m.a>
-
-      {/* Indicadores tipo historias */}
-      <div className="absolute inset-x-0 bottom-0">
-        <div className="contenedor grid gap-2 pb-6 sm:gap-3 sm:pb-8" style={{ gridTemplateColumns: `repeat(${diapositivas.length}, minmax(0, 1fr))` }}>
-          {diapositivas.map((d, k) => (
-            <button
-              key={d.href + k}
-              type="button"
-              onClick={() => setIndice(k)}
-              aria-label={`Ver ${d.etiqueta}`}
-              aria-current={k === indice}
-              className="group flex flex-col gap-2 py-2 text-left focus-visible:outline-none"
-            >
-              <span className="relative h-[3px] w-full overflow-hidden rounded-full bg-white/25 group-focus-visible:ring-2 group-focus-visible:ring-white">
-                <span
-                  key={k === indice ? `activo-${indice}` : "quieto"}
-                  onAnimationEnd={k === indice && !reducir ? siguiente : undefined}
-                  className={cn(
-                    "absolute inset-0 origin-left rounded-full bg-white",
-                    k < indice && "scale-x-100",
-                    k > indice && "scale-x-0",
-                    k === indice && (reducir ? "scale-x-100" : "animate-llenar"),
-                    k === indice && pausa && "[animation-play-state:paused]",
-                  )}
-                />
-              </span>
-              <span className={cn("hidden truncate text-xs font-medium transition-colors sm:block", k === indice ? "text-white" : "text-white/55 group-hover:text-white/80")}>
-                {d.etiqueta}
-              </span>
-            </button>
-          ))}
-        </div>
+      {/* Cifras al pie: una línea fina las separa del mensaje; entran escalonadas y los números cuentan. */}
+      <div className="contenedor pb-6 sm:pb-8">
+        <m.ul
+          initial="oculto"
+          animate="visible"
+          variants={{ oculto: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.55 } } }}
+          className="grid grid-cols-2 border-t border-white/20 lg:grid-cols-4"
+        >
+          {cifras.map((c, i) => {
+            const contenido = (
+              <>
+                <span className="text-[1.75rem] leading-none font-semibold tracking-tight sm:text-4xl">{c.valor}</span>
+                <span className="text-sm leading-snug text-white/75">{c.etiqueta}</span>
+              </>
+            );
+            return (
+              <m.li
+                key={c.etiqueta}
+                variants={{ oculto: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}
+                className={cn(
+                  "relative py-5 sm:py-7",
+                  i % 2 === 1 ? "pl-5 sm:pl-8" : "pr-5",
+                  i % 2 === 1 && "border-l border-white/15",
+                  i >= 2 && "border-t border-white/15 lg:border-t-0",
+                  i === 2 && "lg:border-l lg:pl-8",
+                  i === 1 && "lg:pr-5",
+                )}
+              >
+                {c.href ? (
+                  <a href={c.href} target="_blank" rel="noopener" className="flex flex-col gap-2 rounded-md transition-opacity hover:opacity-85">
+                    {contenido}
+                  </a>
+                ) : (
+                  <div className="flex flex-col gap-2">{contenido}</div>
+                )}
+              </m.li>
+            );
+          })}
+        </m.ul>
       </div>
     </div>
   );

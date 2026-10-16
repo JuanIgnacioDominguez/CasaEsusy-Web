@@ -44,7 +44,7 @@ export function VistaResenas({ resenas }: { resenas: Resena[] }) {
               <div className="flex items-center justify-between">
                 <Estrellas puntaje={r.puntaje} className="text-base text-foreground" />
                 <div className="flex gap-1">
-                  {r.destacada && <Badge className="bg-terracota text-white">Destacada</Badge>}
+                  {r.destacada && <Badge className="bg-acento text-white">Destacada</Badge>}
                   {!r.visible && (
                     <Badge variant="secondary">
                       <EyeOffIcon /> Oculta
