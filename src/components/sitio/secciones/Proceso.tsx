@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useInView, useScroll, useSpring, useTransform } from "motion/react";
+import { useInView, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
 import * as m from "motion/react-m";
 import { ArrowRightIcon, LaptopIcon, MessageCircleIcon, RulerIcon, WrenchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,36 +18,52 @@ const PASOS = [
     texto: "Por WhatsApp, por teléfono o en el local. Con un par de fotos del ambiente ya podemos orientarte.",
     Icono: MessageCircleIcon,
     detalle: "WhatsApp, teléfono o en el local",
-    imagen: "/img/ambientes/alfombra-living.jpg",
-    alt: "Living con sillón, alfombra y plantas, como el que nos mandás en fotos",
+    imagen: "/img/proceso/eligiendo-telas.jpg",
+    alt: "Clienta eligiendo telas con una asesora entre muestras de colores",
   },
   {
     titulo: "Medimos en tu casa",
     texto: "Vamos con muestras a tu casa, en Capital, zona sur o donde estés, para que elijas con la luz real.",
     Icono: RulerIcon,
     detalle: "Sin cargo",
-    imagen: "/img/ambientes/muestrario-telas.jpg",
-    alt: "Muestrario de telas que llevamos a cada visita",
+    imagen: "/img/proceso/medir.jpg",
+    alt: "Cinta métrica para tomar las medidas exactas",
   },
   {
     titulo: "Presupuesto claro",
     texto: "Te mandamos el detalle por ambiente, con plazos y condiciones, sin letra chica.",
     Icono: LaptopIcon,
     detalle: "Lo aceptás online con un clic",
-    imagen: "/img/ambientes/paleta-diseno.jpg",
-    alt: "Paleta de colores y materiales elegidos para el presupuesto",
+    imagen: "/img/proceso/presupuesto-cuaderno.jpg",
+    alt: "Cuaderno, lapicera, café y computadora sobre una mesa de madera",
   },
   {
     titulo: "Confección y colocación",
     texto: "Confeccionamos a medida y nuestro colocador lo instala prolijo, sin que tengas que ocuparte de nada.",
     Icono: WrenchIcon,
     detalle: "Con colocador propio",
-    imagen: "/img/instagram/gasas-ventanal.jpg",
-    alt: "Gasas colocadas por Casa Esusy en un ventanal",
+    imagen: "/img/proceso/confeccion.jpg",
+    alt: "Confección de una cortina a máquina",
   },
 ];
 
 const EASE = [0.215, 0.61, 0.355, 1] as const;
+
+/** Foto de un paso. Con `parallax` (escritorio) se mueve apenas al bajar y crece al pasar el mouse. */
+function FotoPaso({ paso, sizes, parallax }: { paso: (typeof PASOS)[number]; sizes: string; parallax?: MotionValue<number> }) {
+  if (!parallax) return <Image src={paso.imagen} alt={paso.alt} fill sizes={sizes} className="object-cover" />;
+  return (
+    <m.div style={{ y: parallax }} className="absolute inset-x-0 -inset-y-8">
+      <Image
+        src={paso.imagen}
+        alt={paso.alt}
+        fill
+        sizes={sizes}
+        className="object-cover transition-transform duration-[1.2s] ease-[var(--ease-suave)] group-hover/foto:scale-[1.04]"
+      />
+    </m.div>
+  );
+}
 const ENTRADA = {
   oculto: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
@@ -119,8 +135,8 @@ function Paso({ paso, i }: { paso: (typeof PASOS)[number]; i: number }) {
           </span>
           {paso.detalle}
         </m.span>
-        <m.div variants={ENTRADA} className="relative mt-4 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:hidden">
-          <Image src={paso.imagen} alt={paso.alt} fill sizes="(min-width: 640px) 80vw, 90vw" className="object-cover" />
+        <m.div variants={ENTRADA} className="relative mt-4 aspect-[3/2] overflow-hidden rounded-md bg-muted lg:hidden">
+          <FotoPaso paso={paso} sizes="(min-width: 640px) 80vw, 90vw" />
         </m.div>
       </m.div>
 
@@ -129,35 +145,30 @@ function Paso({ paso, i }: { paso: (typeof PASOS)[number]; i: number }) {
         initial={{ opacity: 0, x: invertido ? -48 : 48 }}
         animate={encendido ? { opacity: 1, x: 0 } : undefined}
         transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
-        className={cn("group/foto relative hidden lg:row-start-1 lg:block", invertido ? "lg:col-start-1" : "lg:col-start-3")}
+        className={cn(
+          "group/foto relative hidden lg:row-start-1 lg:block",
+          invertido ? "lg:col-start-1 lg:-ml-4 xl:-ml-8 2xl:-ml-16" : "lg:col-start-3 lg:-mr-4 xl:-mr-8 2xl:-mr-16",
+        )}
       >
         <span
           aria-hidden
           className={cn(
-            "absolute inset-0 rounded-[2rem] border border-acento/30 bg-acento-suave/40 transition-[translate] duration-700 ease-[var(--ease-suave)]",
+            "absolute inset-0 rounded-md border border-acento/30 bg-acento-suave/40 transition-[translate] duration-700 ease-[var(--ease-suave)]",
             invertido
-              ? "-translate-x-4 translate-y-4 group-hover/foto:-translate-x-5 group-hover/foto:translate-y-5"
-              : "translate-x-4 translate-y-4 group-hover/foto:translate-x-5 group-hover/foto:translate-y-5",
+              ? "-translate-x-3 translate-y-3 group-hover/foto:-translate-x-4 group-hover/foto:translate-y-4"
+              : "translate-x-3 translate-y-3 group-hover/foto:translate-x-4 group-hover/foto:translate-y-4",
           )}
         />
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-muted shadow-[0_30px_60px_-36px_rgb(20_24_28/0.55)] ring-1 ring-black/5">
-          <m.div style={{ y: parallax }} className="absolute inset-x-0 -inset-y-8">
-            <Image
-              src={paso.imagen}
-              alt={paso.alt}
-              fill
-              sizes="(min-width: 1280px) 480px, 40vw"
-              className="object-cover transition-transform duration-[1.2s] ease-[var(--ease-suave)] group-hover/foto:scale-[1.04]"
-            />
-          </m.div>
+        <div className="relative aspect-[3/2] overflow-hidden rounded-md bg-muted shadow-[0_30px_60px_-36px_rgb(20_24_28/0.55)] ring-1 ring-black/5">
+          <FotoPaso paso={paso} sizes="(min-width: 1536px) 640px, (min-width: 1280px) 560px, 45vw" parallax={parallax} />
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
           <span
             className={cn(
-              "absolute bottom-4 inline-flex items-center gap-2.5 rounded-full bg-background/92 py-1.5 pr-4 pl-1.5 text-sm font-semibold shadow-lg backdrop-blur",
+              "absolute bottom-4 inline-flex items-center gap-2.5 rounded-md bg-background/92 py-1.5 pr-4 pl-1.5 text-sm font-semibold shadow-lg backdrop-blur",
               invertido ? "right-4" : "left-4",
             )}
           >
-            <span className="grid size-8 place-items-center rounded-full bg-acento text-white">
+            <span className="grid size-8 place-items-center rounded-[0.3rem] bg-acento text-white">
               <Icono className="size-4" aria-hidden />
             </span>
             {paso.detalle}
@@ -179,7 +190,7 @@ export function Proceso({ whatsappHref }: { whatsappHref: string }) {
   return (
     <section
       id="como-trabajamos"
-      className="border-y bg-[var(--fondo-proceso)] py-16 [--fondo-proceso:color-mix(in_oklab,var(--lino)_50%,var(--background))] sm:py-20 lg:py-28"
+      className="overflow-x-clip border-y bg-[var(--fondo-proceso)] py-16 [--fondo-proceso:color-mix(in_oklab,var(--lino)_50%,var(--background))] sm:py-20 lg:py-28"
     >
       <div className="contenedor flex flex-col gap-12 lg:gap-20">
         <Encabezado
@@ -199,21 +210,27 @@ export function Proceso({ whatsappHref }: { whatsappHref: string }) {
         </ol>
 
         {/* Cierre: el primer paso, a un clic */}
-        <Aparecer className="mx-auto flex w-full max-w-3xl flex-col items-center gap-4 rounded-[2rem] border bg-card px-6 py-9 text-center shadow-[0_30px_60px_-40px_rgb(20_24_28/0.4)] sm:px-10 sm:py-11">
-          <p className="text-2xl leading-tight font-semibold tracking-[-0.02em] text-balance sm:text-3xl">¿Arrancamos por el paso 1?</p>
-          <p className="max-w-lg leading-relaxed text-muted-foreground">
-            Contanos qué tenés en mente. Te respondemos en el día y coordinamos la visita, sin cargo.
-          </p>
-          <div className="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Button asChild size="lg" className="group h-12 rounded-lg px-6 text-base has-data-[icon=inline-end]:pr-6">
+        <Aparecer className="grid overflow-hidden rounded-md border bg-card shadow-[0_30px_60px_-44px_rgb(20_24_28/0.35)] md:grid-cols-[13rem_minmax(0,1fr)] lg:grid-cols-[15rem_minmax(0,1fr)_auto] lg:items-center">
+          <div className="relative hidden h-full min-h-[11rem] md:row-span-2 md:block lg:row-span-1">
+            <Image src="/img/proceso/eligiendo-telas.jpg" alt="" fill sizes="240px" className="object-cover" />
+          </div>
+          <div className="flex flex-col gap-2 p-6 pb-2 sm:p-8 sm:pb-2 lg:pb-8">
+            <span className="rotulo text-acento">Sin cargo y sin compromiso</span>
+            <p className="text-2xl leading-tight font-semibold tracking-[-0.02em] text-balance sm:text-[1.75rem]">¿Arrancamos por el paso 1?</p>
+            <p className="max-w-lg leading-relaxed text-muted-foreground">
+              Contanos qué tenés en mente. Te respondemos en el día y coordinamos la visita.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 p-6 pt-4 sm:flex-row sm:p-8 sm:pt-4 lg:flex-col lg:pt-8 lg:pl-0 xl:flex-row">
+            <Button asChild size="lg" className="group h-12 rounded-md px-6 text-base has-data-[icon=inline-end]:pr-6">
               <Link href="/presupuesto">
-                Pedir presupuesto sin cargo
+                Pedir presupuesto
                 <ArrowRightIcon data-icon="inline-end" className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-12 rounded-lg px-6 text-base has-data-[icon=inline-start]:pl-6">
+            <Button asChild size="lg" variant="outline" className="h-12 rounded-md bg-background px-6 text-base has-data-[icon=inline-start]:pl-6">
               <a href={whatsappHref} target="_blank" rel="noopener">
-                <IconoWhatsApp data-icon="inline-start" className="text-[#1FA855]" /> Escribinos por WhatsApp
+                <IconoWhatsApp data-icon="inline-start" className="text-[#1FA855]" /> WhatsApp
               </a>
             </Button>
           </div>

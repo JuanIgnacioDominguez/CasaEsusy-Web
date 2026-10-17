@@ -1,59 +1,74 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Aparecer } from "@/components/motion/Aparecer";
+import { Aparecer, AparecerItem, Escalonado } from "@/components/motion/Aparecer";
 import type { Marca } from "@/lib/db/schema";
 
-/** Marcas con las que trabajamos, en una marquesina infinita que se pausa al pasar el mouse. */
+/**
+ * Marcas con las que trabajamos, en formato editorial: a la izquierda el título y el texto (fijos
+ * al bajar en escritorio), a la derecha una fila por marca con su logo, rubro y qué ofrece.
+ * Cada fila lleva a los catálogos de la marca.
+ */
 export function BandaMarcas({ marcas, catalogos }: { marcas: Marca[]; catalogos: number }) {
   if (marcas.length === 0) return null;
-  // Se repite la lista hasta llenar la banda, y se duplica para que el loop no tenga cortes.
-  const vueltas = Math.max(1, Math.ceil(8 / marcas.length));
-  const tira = Array.from({ length: vueltas }, () => marcas).flat();
-
-  const Item = ({ m, i }: { m: Marca; i: number }) => (
-    <Link
-      href={`/catalogos?marca=${encodeURIComponent(m.nombre)}`}
-      className="group flex shrink-0 items-center gap-4 rounded-2xl px-8 py-4 transition-colors hover:bg-card"
-      aria-hidden={i >= marcas.length ? true : undefined}
-      tabIndex={i >= marcas.length ? -1 : undefined}
-    >
-      {m.logo ? (
-        <Image src={m.logo} alt={m.nombre} width={320} height={96} className="h-11 w-auto max-w-[190px] object-contain opacity-60 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0" />
-      ) : (
-        <span className="flex flex-col leading-none">
-          <span className="text-2xl font-bold tracking-[-0.03em] text-foreground/70 transition-colors group-hover:text-foreground sm:text-3xl">{m.nombre}</span>
-          {m.rubro && <span className="rotulo mt-1.5 text-[0.62rem] text-muted-foreground">{m.rubro}</span>}
-        </span>
-      )}
-    </Link>
-  );
 
   return (
-    <section aria-labelledby="marcas-titulo" className="border-y bg-lino/60 py-14 lg:py-16">
-      <div className="contenedor mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-        <Aparecer className="flex flex-col gap-2">
-          <span className="rotulo text-acento">
-            <span className="h-px w-6 bg-current" aria-hidden />
-            Marcas con las que trabajamos
-          </span>
-          <h2 id="marcas-titulo" className="text-2xl font-semibold sm:text-3xl">
-            Primeras marcas, con sus catálogos online
-          </h2>
+    <section id="marcas" aria-label="Marcas con las que trabajamos" className="border-y bg-lino/50 py-16 sm:py-20 lg:py-28">
+      <div className="contenedor grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
+        <Aparecer className="flex flex-col gap-5">
+          <h2 className="text-[2rem] leading-[1.06] font-semibold text-balance sm:text-[2.6rem] lg:text-[3rem]">Marcas con las que trabajamos</h2>
+          <p className="max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground sm:text-lg">
+            Trabajamos con fabricantes argentinos de primera línea en cortinas, sistemas, alfombras, empapelados y revestimientos. Podés ver sus catálogos
+            online o consultar los muestrarios en nuestro local.
+          </p>
+          <Button asChild size="lg" className="group mt-2 h-12 self-start rounded-md px-6 text-base has-data-[icon=inline-end]:pr-6">
+            <Link href="/catalogos">
+              {catalogos > 0 ? `Ver los ${catalogos} ${catalogos === 1 ? "catálogo" : "catálogos"}` : "Ver catálogos"}
+              <ArrowRightIcon data-icon="inline-end" className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </Button>
+          {/* En escritorio ocupa el resto del alto, para emparejar con la lista de marcas */}
+          <div className="relative mt-3 aspect-[16/10] overflow-hidden rounded-md bg-muted shadow-[0_30px_60px_-40px_rgb(20_24_28/0.5)] lg:aspect-auto lg:min-h-[15rem] lg:flex-1">
+            <Image
+              src="/img/ambientes/muestrario-colores.jpg"
+              alt="Muestrario de colores y terminaciones para elegir en el local"
+              fill
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         </Aparecer>
-        <Button asChild variant="outline" className="h-11 rounded-lg bg-card px-5 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5">
-          <Link href="/catalogos">
-            {catalogos > 0 ? `Ver ${catalogos} ${catalogos === 1 ? "catálogo" : "catálogos"}` : "Ver catálogos"} <ArrowRightIcon data-icon="inline-end" />
-          </Link>
-        </Button>
-      </div>
-      <div className="group relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
-        <div className="flex w-max animate-marquesina group-hover:[animation-play-state:paused] motion-reduce:animate-none">
-          {[...tira, ...tira].map((m, i) => (
-            <Item key={`${m.id}-${i}`} m={m} i={i} />
+
+        <Escalonado className="flex flex-col border-t border-foreground/15">
+          {marcas.map((m) => (
+            <AparecerItem key={m.id}>
+              <Link
+                href={`/catalogos?marca=${encodeURIComponent(m.nombre)}`}
+                className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-foreground/15 py-5 transition-colors duration-300 hover:bg-background/60 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none sm:grid-cols-[12rem_minmax(0,1fr)_auto] sm:gap-10 sm:px-4 sm:py-6"
+              >
+                <span className="flex h-10 items-center sm:h-11">
+                  {m.logo ? (
+                    <Image
+                      src={m.logo}
+                      alt={m.nombre}
+                      width={320}
+                      height={96}
+                      className="h-auto max-h-10 w-auto max-w-[11rem] object-contain object-left opacity-75 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0 sm:max-h-11 sm:max-w-full"
+                    />
+                  ) : (
+                    <span className="text-lg font-bold tracking-[-0.03em]">{m.nombre}</span>
+                  )}
+                </span>
+                <span className="hidden text-[0.95rem] text-muted-foreground sm:block">{m.rubro}</span>
+                <ArrowUpRightIcon
+                  aria-hidden
+                  className="size-5 text-acento opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 max-sm:opacity-40"
+                />
+              </Link>
+            </AparecerItem>
           ))}
-        </div>
+        </Escalonado>
       </div>
     </section>
   );

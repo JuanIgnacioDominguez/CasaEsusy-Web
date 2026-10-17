@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Cortinas a medida, tapizados y decoración en Banfield desde 1967.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f7f4ef",
+    background_color: "#fbfbfb",
     theme_color: "#3f464e",
     lang: "es-AR",
     icons: [

@@ -17,7 +17,7 @@ export default async function Imagen() {
 
   return new ImageResponse(
     (
-      <div style={{ display: "flex", width: "100%", height: "100%", background: "#F7F4EF" }}>
+      <div style={{ display: "flex", width: "100%", height: "100%", background: "#FBFBFB" }}>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "58%", padding: "64px 56px" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={logoSrc} width={330} height={101} alt="" />

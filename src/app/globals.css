@@ -7,7 +7,7 @@
 /* ──────────────────────────────────────────────────────────────
    Casa Esusy · sistema de diseño
    - Pizarra: el gris azulado del logo (#3F464E). Marca, texto y CTA.
-   - Marfil y lino: fondos cálidos de sus piezas de Instagram.
+   - Blanco y piedra (pizarra muy diluido): fondos, como el frente blanco del local.
    - Terracota: único acento (detalles, estados activos, foco).
    ────────────────────────────────────────────────────────────── */
 
@@ -95,9 +95,9 @@
 :root {
   --pizarra: #3f464e;
   --pizarra-profundo: #2a2f35;
-  --marfil: #f7f4ef;
-  --lino: #efe9e0;
-  --arena: #ddd2c2;
+  --marfil: #f8f8f7;
+  --lino: #eeeeef;
+  --arena: #d6d9dd;
   --acento: #a65a3f;
   --acento-suave: #f4e6dd;
   --acento-foreground: #ffffff;
@@ -106,23 +106,23 @@
   --aviso: #9a6a12;
   --aviso-suave: #f6ecd6;
 
-  --background: var(--marfil);
+  --background: #fbfbfb;
   --foreground: #23282e;
-  --card: #fffdfa;
+  --card: #ffffff;
   --card-foreground: #23282e;
-  --popover: #fffdfa;
+  --popover: #ffffff;
   --popover-foreground: #23282e;
   --primary: var(--pizarra);
-  --primary-foreground: #f7f4ef;
-  --secondary: #ebe5db;
+  --primary-foreground: #f8f8f7;
+  --secondary: #eff0f2;
   --secondary-foreground: #2a2f35;
-  --muted: #efe9e0;
+  --muted: #f0f1f2;
   --muted-foreground: #646a71;
-  --accent: #ebe5db;
+  --accent: #eff0f2;
   --accent-foreground: #23282e;
   --destructive: #b42318;
-  --border: #e2dace;
-  --input: #d9d0c3;
+  --border: #e4e6e9;
+  --input: #d6dade;
   --ring: #a65a3f;
   --chart-1: #a65a3f;
   --chart-2: #3f464e;
@@ -130,13 +130,13 @@
   --chart-4: #c8b496;
   --chart-5: #7f8b99;
   --radius: 0.75rem;
-  --sidebar: #f2eee7;
+  --sidebar: #f4f5f6;
   --sidebar-foreground: #23282e;
   --sidebar-primary: var(--pizarra);
-  --sidebar-primary-foreground: #f7f4ef;
-  --sidebar-accent: #e8e1d6;
+  --sidebar-primary-foreground: #f8f8f7;
+  --sidebar-accent: #e9ebee;
   --sidebar-accent-foreground: #23282e;
-  --sidebar-border: #e2dace;
+  --sidebar-border: #e4e6e9;
   --sidebar-ring: #a65a3f;
 }
 
